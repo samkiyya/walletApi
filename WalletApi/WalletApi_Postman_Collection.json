@@ -1,0 +1,215 @@
+{
+  "info": {
+    "_postman_id": "7132ef1e-e2dc-4a5f-99ab-6345ecac2870",
+    "name": "WalletApi V1",
+    "description": "Production-grade Wallet API with CQRS, idempotency, and concurrency control.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Wallet",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"ownerName\": \"John Doe\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Wallet Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets",
+            "{{walletId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deposit",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 1500.00,\n  \"idempotencyKey\": \"dep-{{$guid}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}/deposit",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets",
+            "{{walletId}}",
+            "deposit"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Withdraw",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 250.00,\n  \"idempotencyKey\": \"wd-{{$guid}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}/withdraw",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets",
+            "{{walletId}}",
+            "withdraw"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Transfer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"fromWalletId\": \"{{walletId}}\",\n  \"toWalletId\": \"{{targetWalletId}}\",\n  \"amount\": 100.00,\n  \"idempotencyKey\": \"tx-{{$guid}}\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets/transfers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets",
+            "transfers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Transactions",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}/transactions?page=1&pageSize=20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets",
+            "{{walletId}}",
+            "transactions"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1"
+            },
+            {
+              "key": "pageSize",
+              "value": "20"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "walletId",
+      "value": "REPLACE_WITH_YOUR_WALLET_ID",
+      "type": "string"
+    },
+    {
+      "key": "targetWalletId",
+      "value": "REPLACE_WITH_TARGET_WALLET_ID",
+      "type": "string"
+    }
+  ]
+}
