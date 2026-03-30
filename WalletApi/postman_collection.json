@@ -9,6 +9,32 @@
   "item": [
     {
       "name": "Create Wallet",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "// Parse response JSON\r",
+              "let jsonData = pm.response.json();\r",
+              "\r",
+              "// Safety check\r",
+              "if (jsonData.success && jsonData.data && jsonData.data.id) {\r",
+              "    let walletId = jsonData.data.id;\r",
+              "\r",
+              "    // Save to collection variable\r",
+              "    pm.collectionVariables.set(\"walletId\", walletId);\r",
+              "\r",
+              "    console.log(\"Wallet ID saved:\", walletId);\r",
+              "} else {\r",
+              "    console.error(\"Wallet ID not found in response\");\r",
+              "}"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
