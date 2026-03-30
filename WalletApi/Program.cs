@@ -66,6 +66,23 @@ try
 
     var app = builder.Build();
 
+    // ── Apply Database Migrations on Startup ──────────────────────────
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+        try
+        {
+            var context = services.GetRequiredService<AppDbContext>();
+            context.Database.Migrate();
+            Log.Information("Database migrations applied successfully.");
+        }
+        catch (Exception ex)
+        {
+            Log.Fatal(ex, "An error occurred while applying database migrations.");
+            throw; // Rethrow to prevent the app from starting in an invalid state
+        }
+    }
+
     // ── Middleware Pipeline ───────────────────────────────────────────
     // Order matters: CorrelationId must run before ExceptionMiddleware
     // so that error responses include the trace ID.
