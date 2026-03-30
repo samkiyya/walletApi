@@ -23,13 +23,16 @@ public sealed class DepositHandler : ICommandHandler<DepositCommand, Transaction
 
     public async Task<TransactionResponse> HandleAsync(DepositCommand command, CancellationToken ct = default)
     {
-        // Idempotency: if already processed, return existing result (safe retry)
+        // Idempotency: if already processed, return existing result OR throw if payload differs
         var existing = await _db.Transactions
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.IdempotencyKey == command.IdempotencyKey, ct);
 
         if (existing is not null)
         {
+            if (existing.WalletId != command.WalletId || existing.Amount != command.Amount)
+                throw new IdempotencyMismatchException(command.IdempotencyKey);
+
             _logger.LogInformation("Deposit idempotency hit | Key: {IdempotencyKey}, TxId: {TransactionId}",
                 command.IdempotencyKey, existing.Id);
             return existing.ToResponse();

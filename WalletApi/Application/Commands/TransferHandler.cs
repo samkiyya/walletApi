@@ -39,6 +39,13 @@ public sealed class TransferHandler : ICommandHandler<TransferCommand, TransferR
 
             if (existingCredit is not null)
             {
+                if (existingDebit.WalletId != command.FromWalletId ||
+                    existingCredit.WalletId != command.ToWalletId ||
+                    existingDebit.Amount != command.Amount)
+                {
+                    throw new IdempotencyMismatchException(command.IdempotencyKey);
+                }
+
                 _logger.LogInformation("Transfer idempotency hit | Key: {IdempotencyKey}", command.IdempotencyKey);
                 return new TransferResponse(existingDebit.ToResponse(), existingCredit.ToResponse());
             }

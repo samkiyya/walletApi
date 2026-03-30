@@ -23,13 +23,16 @@ public sealed class WithdrawHandler : ICommandHandler<WithdrawCommand, Transacti
 
     public async Task<TransactionResponse> HandleAsync(WithdrawCommand command, CancellationToken ct = default)
     {
-        // Idempotency check
+        // Idempotency: if already processed, return existing result OR throw if payload differs
         var existing = await _db.Transactions
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.IdempotencyKey == command.IdempotencyKey, ct);
 
         if (existing is not null)
         {
+            if (existing.WalletId != command.WalletId || existing.Amount != command.Amount)
+                throw new IdempotencyMismatchException(command.IdempotencyKey);
+
             _logger.LogInformation("Withdraw idempotency hit | Key: {IdempotencyKey}, TxId: {TransactionId}",
                 command.IdempotencyKey, existing.Id);
             return existing.ToResponse();
