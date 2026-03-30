@@ -57,7 +57,7 @@ public sealed class WalletsController : ControllerBase
     }
 
     private string? TraceId => HttpContext.Items["CorrelationId"]?.ToString();
-
+    
     // ── Commands ──────────────────────────────────────────────────────
 
     [HttpPost]

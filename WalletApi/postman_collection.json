@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "7132ef1e-e2dc-4a5f-99ab-6345ecac2870",
+    "_postman_id": "d9ad2fa9-3507-4ba1-aec2-81dea042ff19",
     "name": "WalletApi V1",
     "description": "Production-grade Wallet API with CQRS, idempotency, and concurrency control.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "44807435"
   },
   "item": [
     {
@@ -18,7 +19,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"ownerName\": \"John Doe\"\n}"
+          "raw": "{\n  \"ownerName\": \"sam skyton\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/wallets",
@@ -55,6 +56,25 @@
       "response": []
     },
     {
+      "name": "Get all Wallets Info",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/wallets",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "wallets"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
       "name": "Deposit",
       "request": {
         "method": "POST",
@@ -66,7 +86,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"amount\": 1500.00,\n  \"idempotencyKey\": \"dep-{{$guid}}\"\n}"
+          "raw": "{\n  \"amount\": 500.00,\n  \"idempotencyKey\": \"dep-{{$guid}}\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}/deposit",
@@ -149,7 +169,7 @@
         "method": "GET",
         "header": [],
         "url": {
-          "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}/transactions?page=1&pageSize=20",
+          "raw": "{{baseUrl}}/api/v1/wallets/{{walletId}}/transactions?page=2&pageSize=20",
           "host": [
             "{{baseUrl}}"
           ],
@@ -163,7 +183,7 @@
           "query": [
             {
               "key": "page",
-              "value": "1"
+              "value": "2"
             },
             {
               "key": "pageSize",
@@ -198,18 +218,15 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:5000",
-      "type": "string"
+      "value": "http://localhost:5000"
     },
     {
       "key": "walletId",
-      "value": "REPLACE_WITH_YOUR_WALLET_ID",
-      "type": "string"
+      "value": "REPLACE_WITH_YOUR_WALLET_ID"
     },
     {
       "key": "targetWalletId",
-      "value": "REPLACE_WITH_TARGET_WALLET_ID",
-      "type": "string"
+      "value": "REPLACE_WITH_TARGET_WALLET_ID"
     }
   ]
 }
