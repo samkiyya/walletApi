@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using WalletApi.Application.Commands;
