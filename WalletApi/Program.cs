@@ -47,6 +47,7 @@ try
 
     // ── CQRS Query Handlers ───────────────────────────────────────────
     builder.Services.AddScoped<GetWalletHandler>();
+    builder.Services.AddScoped<GetWalletsHandler>();
     builder.Services.AddScoped<GetTransactionsHandler>();
 
     // ── FluentValidation (manual invocation — no deprecated auto-validation) ──

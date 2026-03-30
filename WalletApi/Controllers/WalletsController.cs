@@ -24,6 +24,7 @@ public sealed class WalletsController : ControllerBase
 
     // Query handlers (read side)
     private readonly GetWalletHandler _getWallet;
+    private readonly GetWalletsHandler _getWallets;
     private readonly GetTransactionsHandler _getTransactions;
 
     // Validators
@@ -37,6 +38,7 @@ public sealed class WalletsController : ControllerBase
         WithdrawHandler withdraw,
         TransferHandler transfer,
         GetWalletHandler getWallet,
+        GetWalletsHandler getWallets,
         GetTransactionsHandler getTransactions,
         IValidator<DepositRequest> depositValidator,
         IValidator<WithdrawRequest> withdrawValidator,
@@ -47,6 +49,7 @@ public sealed class WalletsController : ControllerBase
         _withdraw = withdraw;
         _transfer = transfer;
         _getWallet = getWallet;
+        _getWallets = getWallets;
         _getTransactions = getTransactions;
         _depositValidator = depositValidator;
         _withdrawValidator = withdrawValidator;
@@ -134,6 +137,20 @@ public sealed class WalletsController : ControllerBase
     }
 
     // ── Queries ───────────────────────────────────────────────────────
+
+    [HttpGet]
+    [ProducesResponseType(typeof(ApiEnvelope<PagedResponse<WalletResponse>>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetAll(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20,
+        CancellationToken ct = default)
+    {
+        page = Math.Max(1, page);
+        pageSize = Math.Clamp(pageSize, 1, 100);
+
+        var result = await _getWallets.HandleAsync(new GetWalletsQuery(page, pageSize), ct);
+        return Ok(ApiEnvelope<PagedResponse<WalletResponse>>.Ok(result, TraceId));
+    }
 
     [HttpGet("{id:guid}")]
     [ProducesResponseType(typeof(ApiEnvelope<WalletResponse>), StatusCodes.Status200OK)]
