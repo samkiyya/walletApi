@@ -50,75 +50,79 @@ public sealed class TransferHandler : ICommandHandler<TransferCommand, TransferR
             .OrderBy(id => id)
             .ToArray();
 
-        await using var tx = await _db.Database.BeginTransactionAsync(ct);
-
-        var wallets = await _db.Wallets
-            .Where(w => orderedIds.Contains(w.Id))
-            .OrderBy(w => w.Id)
-            .ToListAsync(ct);
-
-        var sender = wallets.FirstOrDefault(w => w.Id == command.FromWalletId)
-            ?? throw new NotFoundException("Wallet", command.FromWalletId);
-
-        var receiver = wallets.FirstOrDefault(w => w.Id == command.ToWalletId)
-            ?? throw new NotFoundException("Wallet", command.ToWalletId);
-
-        // Domain invariants enforced by entity methods
-        sender.Debit(command.Amount);
-        receiver.Credit(command.Amount);
-
-        var referenceId = Guid.NewGuid();
-
-        var debitTx = Transaction.Create(
-            walletId: sender.Id,
-            type: TransactionType.TransferOut,
-            amount: command.Amount,
-            balanceAfter: sender.Balance,
-            description: $"Transfer to wallet {receiver.Id}",
-            idempotencyKey: command.IdempotencyKey,
-            referenceTransactionId: referenceId);
-
-        var creditTx = Transaction.Create(
-            walletId: receiver.Id,
-            type: TransactionType.TransferIn,
-            amount: command.Amount,
-            balanceAfter: receiver.Balance,
-            description: $"Transfer from wallet {sender.Id}",
-            idempotencyKey: $"{command.IdempotencyKey}:cr",
-            referenceTransactionId: referenceId);
-
-        _db.Transactions.AddRange(debitTx, creditTx);
-
-        try
+        var strategy = _db.Database.CreateExecutionStrategy();
+        return await strategy.ExecuteAsync(async () =>
         {
-            await _db.SaveChangesAsync(ct);
-            await tx.CommitAsync(ct);
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            throw new ConcurrencyConflictException();
-        }
-        catch (DbUpdateException ex) when (IsUniqueViolation(ex))
-        {
-            // Race condition on idempotency key — re-fetch the already-committed transfer
-            var racedDebit = await _db.Transactions
-                .AsNoTracking()
-                .FirstAsync(t => t.IdempotencyKey == command.IdempotencyKey, ct);
+            await using var tx = await _db.Database.BeginTransactionAsync(ct);
 
-            var racedCredit = await _db.Transactions
-                .AsNoTracking()
-                .FirstAsync(t =>
-                    t.ReferenceTransactionId == racedDebit.ReferenceTransactionId
-                    && t.Id != racedDebit.Id, ct);
+            var wallets = await _db.Wallets
+                .Where(w => orderedIds.Contains(w.Id))
+                .OrderBy(w => w.Id)
+                .ToListAsync(ct);
 
-            return new TransferResponse(racedDebit.ToResponse(), racedCredit.ToResponse());
-        }
+            var sender = wallets.FirstOrDefault(w => w.Id == command.FromWalletId)
+                ?? throw new NotFoundException("Wallet", command.FromWalletId);
 
-        _logger.LogInformation(
-            "Transfer completed | From: {FromWalletId}, To: {ToWalletId}, Amount: {Amount}, RefId: {ReferenceId}",
-            command.FromWalletId, command.ToWalletId, command.Amount, referenceId);
+            var receiver = wallets.FirstOrDefault(w => w.Id == command.ToWalletId)
+                ?? throw new NotFoundException("Wallet", command.ToWalletId);
 
-        return new TransferResponse(debitTx.ToResponse(), creditTx.ToResponse());
+            // Domain invariants enforced by entity methods
+            sender.Debit(command.Amount);
+            receiver.Credit(command.Amount);
+
+            var referenceId = Guid.NewGuid();
+
+            var debitTx = Transaction.Create(
+                walletId: sender.Id,
+                type: TransactionType.TransferOut,
+                amount: command.Amount,
+                balanceAfter: sender.Balance,
+                description: $"Transfer to wallet {receiver.Id}",
+                idempotencyKey: command.IdempotencyKey,
+                referenceTransactionId: referenceId);
+
+            var creditTx = Transaction.Create(
+                walletId: receiver.Id,
+                type: TransactionType.TransferIn,
+                amount: command.Amount,
+                balanceAfter: receiver.Balance,
+                description: $"Transfer from wallet {sender.Id}",
+                idempotencyKey: $"{command.IdempotencyKey}:cr",
+                referenceTransactionId: referenceId);
+
+            _db.Transactions.AddRange(debitTx, creditTx);
+
+            try
+            {
+                await _db.SaveChangesAsync(ct);
+                await tx.CommitAsync(ct);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw new ConcurrencyConflictException();
+            }
+            catch (DbUpdateException ex) when (IsUniqueViolation(ex))
+            {
+                // Race condition on idempotency key — re-fetch the already-committed transfer
+                var racedDebit = await _db.Transactions
+                    .AsNoTracking()
+                    .FirstAsync(t => t.IdempotencyKey == command.IdempotencyKey, ct);
+
+                var racedCredit = await _db.Transactions
+                    .AsNoTracking()
+                    .FirstAsync(t =>
+                        t.ReferenceTransactionId == racedDebit.ReferenceTransactionId
+                        && t.Id != racedDebit.Id, ct);
+
+                return new TransferResponse(racedDebit.ToResponse(), racedCredit.ToResponse());
+            }
+
+            _logger.LogInformation(
+                "Transfer completed | From: {FromWalletId}, To: {ToWalletId}, Amount: {Amount}, RefId: {ReferenceId}",
+                command.FromWalletId, command.ToWalletId, command.Amount, referenceId);
+
+            return new TransferResponse(debitTx.ToResponse(), creditTx.ToResponse());
+        });
     }
 
     private static bool IsUniqueViolation(DbUpdateException ex)
