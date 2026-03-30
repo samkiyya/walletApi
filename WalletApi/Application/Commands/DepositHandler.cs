@@ -30,7 +30,9 @@ public sealed class DepositHandler : ICommandHandler<DepositCommand, Transaction
 
         if (existing is not null)
         {
-            if (existing.WalletId != command.WalletId || existing.Amount != command.Amount)
+            if (existing.Type != TransactionType.Deposit ||
+                existing.WalletId != command.WalletId || 
+                existing.Amount != command.Amount)
                 throw new IdempotencyMismatchException(command.IdempotencyKey);
 
             _logger.LogInformation("Deposit idempotency hit | Key: {IdempotencyKey}, TxId: {TransactionId}",

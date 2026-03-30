@@ -30,7 +30,9 @@ public sealed class WithdrawHandler : ICommandHandler<WithdrawCommand, Transacti
 
         if (existing is not null)
         {
-            if (existing.WalletId != command.WalletId || existing.Amount != command.Amount)
+            if (existing.Type != TransactionType.Withdrawal ||
+                existing.WalletId != command.WalletId || 
+                existing.Amount != command.Amount)
                 throw new IdempotencyMismatchException(command.IdempotencyKey);
 
             _logger.LogInformation("Withdraw idempotency hit | Key: {IdempotencyKey}, TxId: {TransactionId}",

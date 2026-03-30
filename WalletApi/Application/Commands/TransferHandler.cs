@@ -39,7 +39,9 @@ public sealed class TransferHandler : ICommandHandler<TransferCommand, TransferR
 
             if (existingCredit is not null)
             {
-                if (existingDebit.WalletId != command.FromWalletId ||
+                if (existingDebit.Type != TransactionType.TransferOut ||
+                    existingCredit.Type != TransactionType.TransferIn ||
+                    existingDebit.WalletId != command.FromWalletId ||
                     existingCredit.WalletId != command.ToWalletId ||
                     existingDebit.Amount != command.Amount)
                 {
