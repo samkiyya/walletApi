@@ -6,30 +6,39 @@ import 'package:wallet_app/features/transaction/presentation/pages/transactions_
 import 'package:wallet_app/features/wallet/presentation/pages/wallet_detail_page.dart';
 import 'package:wallet_app/features/wallet/presentation/pages/wallets_page.dart';
 
+/// Centralized route paths (industry practice)
+abstract final class AppRoutes {
+  static const wallets = '/';
+  static const walletDetail = '/wallets/:id';
+  static const walletTransactions = 'transactions';
+}
+
 /// Creates the app-wide [GoRouter] instance.
 GoRouter createRouter() {
   return GoRouter(
-    initialLocation: '/',
+    initialLocation: AppRoutes.wallets,
+
     routes: [
-      // ── Home: Wallet List ─────────────────────────────────────
+      // ── Wallets (Home) ───────────────────────────────────────
       GoRoute(
-        path: '/',
+        path: AppRoutes.wallets,
         name: 'wallets',
         builder: (context, state) => const WalletsPage(),
       ),
 
-      // ── Wallet Detail ─────────────────────────────────────────
+      // ── Wallet Detail Scope ──────────────────────────────────
       GoRoute(
-        path: '/wallets/:id',
+        path: AppRoutes.walletDetail,
         name: 'wallet-detail',
         builder: (context, state) {
           final walletId = state.pathParameters['id']!;
           return WalletDetailPage(walletId: walletId);
         },
+
         routes: [
-          // ── Full Transaction History (nested under wallet) ────
+          // ── Wallet Transactions (nested feature route) ───────
           GoRoute(
-            path: 'transactions',
+            path: AppRoutes.walletTransactions,
             name: 'wallet-transactions',
             builder: (context, state) {
               final walletId = state.pathParameters['id']!;

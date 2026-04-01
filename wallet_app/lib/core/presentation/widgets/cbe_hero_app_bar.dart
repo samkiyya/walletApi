@@ -92,18 +92,14 @@ class CbeHeroAppBar extends StatelessWidget {
                 child: Container(color: scheme.primary),
               ),
 
-              // 3. Hero Content perfectly bounded beneath the native app bar zone
+              // 3. Hero Content floating freely anchored to bottom
               Positioned(
-                top: minExtent, 
                 left: 20,
                 right: 20,
-                bottom: 20, // Internal padding
+                bottom: 20, // Anchors to the collapsing bottom edge, naturally drifting upwards
                 child: Opacity(
                   opacity: heroOpacity,
-                  child: Align(
-                    alignment: Alignment.bottomLeft,
-                    child: heroContent,
-                  ),
+                  child: heroContent,
                 ),
               ),
 

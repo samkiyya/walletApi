@@ -15,6 +15,7 @@ import 'package:wallet_app/app/bloc/theme_bloc.dart';
 import 'package:wallet_app/app/bloc/theme_state.dart';
 import 'package:wallet_app/app/router.dart';
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/app/app_boundary.dart';
 
 class WalletApp extends StatelessWidget {
   WalletApp({super.key});
@@ -34,6 +35,9 @@ class WalletApp extends StatelessWidget {
             darkTheme: AppTheme.darkTheme,
             themeMode: state.themeMode,
             routerConfig: _router,
+            builder: (context, child) {
+              return AppBoundary(child: child ?? const SizedBox.shrink());
+            },
           );
         },
       ),
