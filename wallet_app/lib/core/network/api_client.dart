@@ -1,12 +1,10 @@
-
 library;
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
-import 'package:certificate_pinning_httpclient/certificate_pinning_httpclient.dart';
-
 import 'package:wallet_app/core/constants/api_constants.dart';
 import 'package:wallet_app/core/network/app_interceptor.dart';
+import 'package:wallet_app/core/network/secure_http_client.dart';
 import 'package:wallet_app/core/utils/app_logger.dart';
 
 Dio createDioClient() {
@@ -22,12 +20,13 @@ Dio createDioClient() {
     ),
   );
 
-   final adapter = dio.httpClientAdapter as IOHttpClientAdapter;
+  final adapter = dio.httpClientAdapter as IOHttpClientAdapter;
 
-   adapter.createHttpClient  =() {
-    return CertificatePinningHttpClient(
-      ["="],
-    );
+  adapter.createHttpClient = () {
+    // return HttpSecurityPinningClient(
+    //   ["T4eoRdbfIYF3G9IOGamqR3Vgye2bNLHQTSCOY8u3y5w="],
+    // );
+   return  createSecureHttpClient();
   };
 
   // ── Structured Interceptors ─────────────────────────────────────
