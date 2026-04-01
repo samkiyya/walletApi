@@ -71,7 +71,6 @@ try
     var app = builder.Build();
 
     // ── Apply Database Migrations on Startup ──────────────────────────
-    // ── DB MIGRATION (Production-safe) ──────────────────────────────
     using (var scope = app.Services.CreateScope())
     {
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
