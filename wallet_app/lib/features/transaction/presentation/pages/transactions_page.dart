@@ -44,6 +44,7 @@ class _TransactionsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.cbeColors;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -62,7 +63,7 @@ class _TransactionsView extends StatelessWidget {
             }
 
             return RefreshIndicator(
-              color: AppTheme.cbePurple,
+              color: scheme.primary,
               onRefresh: () async {
                 context.read<TransactionBloc>().add(
                       LoadTransactions(walletId: walletId),
@@ -86,11 +87,11 @@ class _TransactionsView extends StatelessWidget {
                             page: state.page + 1,
                           ),
                         );
-                    return const Padding(
-                      padding: EdgeInsets.all(24),
+                    return Padding(
+                      padding: const EdgeInsets.all(24),
                       child: Center(
                         child: CircularProgressIndicator(
-                          color: AppTheme.cbePurple,
+                          color: scheme.primary,
                           strokeWidth: 2,
                         ),
                       ),
@@ -148,10 +149,10 @@ class _TransactionsView extends StatelessWidget {
                 color: colors.cbePurpleLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.receipt_long_outlined,
                 size: 56,
-                color: AppTheme.cbePurple,
+                color: colors.cbePurple,
               ),
             ),
             const SizedBox(height: 24),
@@ -185,10 +186,10 @@ class _TransactionsView extends StatelessWidget {
                 color: colors.errorRedLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.error_outline_rounded,
                 size: 56,
-                color: AppTheme.errorRed,
+                color: colors.errorRed,
               ),
             ),
             const SizedBox(height: 24),

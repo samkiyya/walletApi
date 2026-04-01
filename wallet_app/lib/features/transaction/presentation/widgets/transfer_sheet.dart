@@ -118,6 +118,7 @@ class _TransferSheetState extends State<TransferSheet> {
   @override
   Widget build(BuildContext context) {
     final colors = context.cbeColors;
+    final scheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: EdgeInsets.only(
@@ -139,7 +140,7 @@ class _TransferSheetState extends State<TransferSheet> {
                   width: 40,
                   height: 4,
                   decoration: BoxDecoration(
-                    color: colors.textMuted.withValues(alpha: 0.3),
+                    color: colors.handle,
                     borderRadius: BorderRadius.circular(2),
                   ),
                 ),
@@ -155,8 +156,8 @@ class _TransferSheetState extends State<TransferSheet> {
                       gradient: AppTheme.transferGradient,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(Icons.swap_horiz_rounded,
-                        color: Colors.white, size: 22),
+                    child: Icon(Icons.swap_horiz_rounded,
+                        color: colors.onGradient, size: 22),
                   ),
                   const SizedBox(width: 12),
                   Column(
@@ -186,13 +187,13 @@ class _TransferSheetState extends State<TransferSheet> {
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.arrow_upward_rounded,
-                        color: AppTheme.cbePurple, size: 16),
+                    Icon(Icons.arrow_upward_rounded,
+                        color: colors.cbePurple, size: 16),
                     const SizedBox(width: 8),
                     Text(
                       'From: ${widget.fromWalletId.substring(0, 8)}...',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppTheme.cbePurple,
+                            color: colors.cbePurple,
                             fontWeight: FontWeight.w600,
                           ),
                     ),
@@ -240,7 +241,7 @@ class _TransferSheetState extends State<TransferSheet> {
               const SizedBox(height: 8),
 
               if (_showWalletPicker)
-                _buildWalletSearchPicker(colors)
+                _buildWalletSearchPicker(colors, scheme)
               else ...[
                 // ── Target Wallet Field ─────────────────────────────
                 TextFormField(
@@ -322,12 +323,12 @@ class _TransferSheetState extends State<TransferSheet> {
       decoration: BoxDecoration(
         color: colors.successGreenLight,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppTheme.successGreen.withValues(alpha: 0.3)),
+        border: Border.all(color: colors.successGreen.withValues(alpha: 0.3)),
       ),
       child: Row(
         children: [
-          const Icon(Icons.check_circle_rounded,
-              color: AppTheme.successGreen, size: 20),
+          Icon(Icons.check_circle_rounded,
+              color: colors.successGreen, size: 20),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -365,7 +366,7 @@ class _TransferSheetState extends State<TransferSheet> {
   }
 
   // ── Wallet search & picker ────────────────────────────────────────
-  Widget _buildWalletSearchPicker(CbeColors colors) {
+  Widget _buildWalletSearchPicker(CbeColors colors, ColorScheme scheme) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -410,11 +411,11 @@ class _TransferSheetState extends State<TransferSheet> {
             border: Border.all(color: colors.divider),
           ),
           child: _isLoadingWallets
-              ? const Center(
+              ? Center(
                   child: Padding(
-                    padding: EdgeInsets.all(24),
+                    padding: const EdgeInsets.all(24),
                     child: CircularProgressIndicator(
-                        color: AppTheme.cbePurple, strokeWidth: 2),
+                        color: scheme.primary, strokeWidth: 2),
                   ),
                 )
               : _filteredWallets.isEmpty
@@ -449,9 +450,9 @@ class _TransferSheetState extends State<TransferSheet> {
                               color: colors.cbePurpleLight,
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.account_balance_wallet_rounded,
-                              color: AppTheme.cbePurple,
+                              color: colors.cbePurple,
                               size: 16,
                             ),
                           ),

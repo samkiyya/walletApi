@@ -33,7 +33,7 @@ class TransactionTile extends StatelessWidget {
     final dateFormat = DateFormat('MMM d, h:mm a');
     final colors = context.cbeColors;
 
-    final (icon, color, prefix) = _getVisuals();
+    final (icon, color, prefix) = _getVisuals(colors);
     final bgColor = _getBgColor(colors);
 
     return Container(
@@ -125,26 +125,26 @@ class TransactionTile extends StatelessWidget {
     };
   }
 
-  (IconData, Color, String) _getVisuals() {
+  (IconData, Color, String) _getVisuals(CbeColors colors) {
     return switch (transaction.type) {
       TransactionType.deposit => (
           Icons.south_west_rounded,
-          AppTheme.successGreen,
+          colors.successGreen,
           '+'
         ),
       TransactionType.withdrawal => (
           Icons.north_east_rounded,
-          AppTheme.errorRed,
+          colors.errorRed,
           '-'
         ),
       TransactionType.transferOut => (
           Icons.arrow_upward_rounded,
-          AppTheme.errorRed,
+          colors.errorRed,
           '-'
         ),
       TransactionType.transferIn => (
           Icons.arrow_downward_rounded,
-          AppTheme.successGreen,
+          colors.successGreen,
           '+'
         ),
     };

@@ -68,17 +68,19 @@ class _WalletDetailView extends StatelessWidget {
       backgroundColor: colors.background,
       body: BlocConsumer<TransactionBloc, TransactionState>(
         listener: (context, txState) {
+          final scheme = Theme.of(context).colorScheme;
           if (txState is TransactionSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Row(
                   children: [
-                    const Icon(Icons.check_circle_rounded,
-                        color: Colors.white, size: 20),
+                    Icon(Icons.check_circle_rounded,
+                        color: scheme.onInverseSurface, size: 20),
                     const SizedBox(width: 10),
                     Expanded(
                         child: Text(txState.message,
-                            style: const TextStyle(color: Colors.white))),
+                            style: TextStyle(
+                                color: scheme.onInverseSurface))),
                   ],
                 ),
               ),
@@ -94,12 +96,13 @@ class _WalletDetailView extends StatelessWidget {
               SnackBar(
                 content: Row(
                   children: [
-                    const Icon(Icons.error_outline_rounded,
-                        color: Colors.white, size: 20),
+                    Icon(Icons.error_outline_rounded,
+                        color: scheme.onInverseSurface, size: 20),
                     const SizedBox(width: 10),
                     Expanded(
                         child: Text(txState.message,
-                            style: const TextStyle(color: Colors.white))),
+                            style: TextStyle(
+                                color: scheme.onInverseSurface))),
                   ],
                 ),
               ),
@@ -168,6 +171,8 @@ class _WalletDetailView extends StatelessWidget {
   // ── Hero AppBar with Balance ──────────────────────────────────────
 
   Widget _buildSliverAppBar(BuildContext context, WalletState state) {
+    final colors = context.cbeColors;
+    final scheme = Theme.of(context).colorScheme;
     final currencyFormat =
         NumberFormat.currency(symbol: 'ETB ', decimalDigits: 2);
 
@@ -182,9 +187,9 @@ class _WalletDetailView extends StatelessWidget {
     return SliverAppBar(
       expandedHeight: 220,
       pinned: true,
-      backgroundColor: AppTheme.cbePurple,
-      foregroundColor: Colors.white,
-      iconTheme: const IconThemeData(color: Colors.white),
+      backgroundColor: scheme.primary,
+      foregroundColor: scheme.onPrimary,
+      iconTheme: IconThemeData(color: scheme.onPrimary),
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: const BoxDecoration(gradient: AppTheme.heroGradient),
@@ -198,7 +203,7 @@ class _WalletDetailView extends StatelessWidget {
                   Text(
                     ownerName,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.85),
+                      color: colors.onGradient.withValues(alpha: 0.85),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -206,8 +211,8 @@ class _WalletDetailView extends StatelessWidget {
                   const SizedBox(height: 8),
                   Text(
                     balance,
-                    style: const TextStyle(
-                      color: Colors.white,
+                    style: TextStyle(
+                      color: colors.onGradient,
                       fontSize: 36,
                       fontWeight: FontWeight.w800,
                       letterSpacing: -1,
@@ -221,7 +226,7 @@ class _WalletDetailView extends StatelessWidget {
                   Text(
                     'Available Balance',
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.7),
+                      color: colors.onGradientMuted,
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
@@ -233,12 +238,12 @@ class _WalletDetailView extends StatelessWidget {
           ),
         ),
       ),
-      title: const Text(
+      title: Text(
         'Wallet Details',
         style: TextStyle(
           fontSize: 18,
           fontWeight: FontWeight.w700,
-          color: Colors.white,
+          color: scheme.onPrimary,
         ),
       ),
     );
@@ -256,7 +261,7 @@ class _WalletDetailView extends StatelessWidget {
           _ActionButton(
             icon: Icons.south_west_rounded,
             label: 'Deposit',
-            color: AppTheme.successGreen,
+            color: colors.successGreen,
             bgColor: colors.successGreenLight,
             onTap: () => _showDeposit(context),
           ),
@@ -264,7 +269,7 @@ class _WalletDetailView extends StatelessWidget {
           _ActionButton(
             icon: Icons.north_east_rounded,
             label: 'Withdraw',
-            color: AppTheme.errorRed,
+            color: colors.errorRed,
             bgColor: colors.errorRedLight,
             onTap: () => _showWithdraw(context),
           ),
@@ -272,7 +277,7 @@ class _WalletDetailView extends StatelessWidget {
           _ActionButton(
             icon: Icons.swap_horiz_rounded,
             label: 'Transfer',
-            color: AppTheme.cbePurple,
+            color: colors.cbePurple,
             bgColor: colors.cbePurpleLight,
             onTap: () => _showTransfer(context),
           ),
@@ -328,15 +333,15 @@ class _WalletDetailView extends StatelessWidget {
                 color: colors.cbePurpleLight,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: const Row(
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.copy_rounded, size: 14, color: AppTheme.cbePurple),
-                  SizedBox(width: 4),
+                  Icon(Icons.copy_rounded, size: 14, color: colors.cbePurple),
+                  const SizedBox(width: 4),
                   Text(
                     'Copy',
                     style: TextStyle(
-                      color: AppTheme.cbePurple,
+                      color: colors.cbePurple,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),
@@ -357,9 +362,9 @@ class _WalletDetailView extends StatelessWidget {
     final colors = context.cbeColors;
 
     if (txState is TransactionLoading) {
-      return const SliverFillRemaining(
+      return SliverFillRemaining(
         child: Center(
-          child: CircularProgressIndicator(color: AppTheme.cbePurple),
+          child: CircularProgressIndicator(color: colors.cbePurple),
         ),
       );
     }
@@ -416,10 +421,6 @@ class _WalletDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.cbeColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
       builder: (_) => AmountInputSheet(
         title: 'Deposit Funds',
         subtitle: 'Add money to your wallet',
@@ -438,10 +439,6 @@ class _WalletDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.cbeColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
       builder: (_) => AmountInputSheet(
         title: 'Withdraw Funds',
         subtitle: 'Take money from your wallet',
@@ -460,10 +457,6 @@ class _WalletDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.cbeColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
       builder: (_) => TransferSheet(
         fromWalletId: walletId,
         onSubmit: (toWalletId, amount) {

@@ -78,7 +78,7 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: colors.textMuted.withValues(alpha: 0.3),
+                  color: colors.handle,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -94,7 +94,8 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                     gradient: widget.gradient,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(widget.icon, color: Colors.white, size: 22),
+                  child: Icon(widget.icon,
+                      color: colors.onGradient, size: 22),
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -137,7 +138,7 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                         Theme.of(context).textTheme.displayMedium?.copyWith(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
-                              color: AppTheme.cbePurple,
+                              color: colors.cbePurple,
                             ),
                   ),
                 ),

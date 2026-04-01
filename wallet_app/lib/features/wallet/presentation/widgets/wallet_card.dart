@@ -61,12 +61,12 @@ class WalletCard extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
+                      color: colors.onGradient.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: const Icon(
+                    child: Icon(
                       Icons.account_balance_wallet_rounded,
-                      color: Colors.white,
+                      color: colors.onGradient,
                       size: 20,
                     ),
                   ),
@@ -77,8 +77,8 @@ class WalletCard extends StatelessWidget {
                       children: [
                         Text(
                           wallet.ownerName ?? 'Anonymous Wallet',
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: colors.onGradient,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -88,7 +88,7 @@ class WalletCard extends StatelessWidget {
                         Text(
                           'ID: ${wallet.id.substring(0, 8)}...',
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.75),
+                            color: colors.onGradientMuted,
                             fontSize: 11,
                           ),
                         ),
@@ -97,7 +97,7 @@ class WalletCard extends StatelessWidget {
                   ),
                   Icon(
                     Icons.chevron_right_rounded,
-                    color: Colors.white.withValues(alpha: 0.7),
+                    color: colors.onGradientMuted,
                   ),
                 ],
               ),

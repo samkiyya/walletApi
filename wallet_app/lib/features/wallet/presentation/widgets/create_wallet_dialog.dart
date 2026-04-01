@@ -63,7 +63,7 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: colors.textMuted.withValues(alpha: 0.3),
+                  color: colors.handle,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -79,9 +79,9 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
                     gradient: AppTheme.cardGradient,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.add_card_rounded,
-                    color: Colors.white,
+                    color: colors.onGradient,
                     size: 22,
                   ),
                 ),

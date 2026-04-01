@@ -17,8 +17,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
+import 'package:wallet_app/app/bloc/theme_bloc.dart';
+import 'package:wallet_app/app/bloc/theme_event.dart';
+import 'package:wallet_app/app/bloc/theme_state.dart';
 import 'package:wallet_app/app/theme.dart';
-import 'package:wallet_app/app/theme_cubit.dart';
 import 'package:wallet_app/di/injection_container.dart';
 import 'package:wallet_app/features/wallet/domain/entities/wallet.dart';
 import 'package:wallet_app/features/wallet/presentation/bloc/wallet_bloc.dart';
@@ -71,6 +73,7 @@ class _WalletsViewState extends State<_WalletsView> {
   @override
   Widget build(BuildContext context) {
     final colors = context.cbeColors;
+    final scheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       backgroundColor: colors.background,
@@ -87,7 +90,7 @@ class _WalletsViewState extends State<_WalletsView> {
             floating: false,
             pinned: true,
             backgroundColor: colors.surface,
-            surfaceTintColor: Colors.transparent,
+            surfaceTintColor: colors.surface,
             flexibleSpace: LayoutBuilder(
               builder: (context, constraints) {
                 // Determine collapse ratio to cross-fade hero vs title
@@ -125,14 +128,14 @@ class _WalletsViewState extends State<_WalletsView> {
                                     Container(
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                        color: Colors.white
+                                        color: colors.onGradient
                                             .withValues(alpha: 0.15),
                                         borderRadius:
                                             BorderRadius.circular(10),
                                       ),
-                                      child: const Icon(
+                                      child: Icon(
                                         Icons.account_balance_rounded,
-                                        color: Colors.white,
+                                        color: colors.onGradient,
                                         size: 22,
                                       ),
                                     ),
@@ -142,10 +145,10 @@ class _WalletsViewState extends State<_WalletsView> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          const Text(
+                                          Text(
                                             'CBE Wallet',
                                             style: TextStyle(
-                                              color: Colors.white,
+                                              color: colors.onGradient,
                                               fontSize: 22,
                                               fontWeight: FontWeight.w800,
                                               letterSpacing: -0.5,
@@ -154,7 +157,7 @@ class _WalletsViewState extends State<_WalletsView> {
                                           Text(
                                             'Commercial Bank of Ethiopia',
                                             style: TextStyle(
-                                              color: Colors.white.withValues(alpha: 0.7),
+                                              color: colors.onGradientMuted,
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                             ),
@@ -162,17 +165,17 @@ class _WalletsViewState extends State<_WalletsView> {
                                         ],
                                       ),
                                     ),
-                                    BlocBuilder<ThemeCubit, ThemeMode>(
-                                      builder: (context, themeMode) {
-                                        final isDark = themeMode == ThemeMode.dark ||
-                                            (themeMode == ThemeMode.system &&
+                                    BlocBuilder<ThemeBloc, ThemeState>(
+                                      builder: (context, themeState) {
+                                        final isDark = themeState.themeMode == ThemeMode.dark ||
+                                            (themeState.themeMode == ThemeMode.system &&
                                                 MediaQuery.of(context).platformBrightness == Brightness.dark);
                                         return IconButton(
                                           icon: Icon(
                                             isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                                            color: Colors.white,
+                                            color: colors.onGradient,
                                           ),
-                                          onPressed: () => context.read<ThemeCubit>().toggleTheme(context),
+                                          onPressed: () => context.read<ThemeBloc>().add(const ThemeToggled()),
                                           tooltip: 'Toggle Theme',
                                         );
                                       },
@@ -250,8 +253,8 @@ class _WalletsViewState extends State<_WalletsView> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                        color: AppTheme.cbePurple, width: 2),
+                    borderSide: BorderSide(
+                        color: scheme.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16, vertical: 14),
@@ -268,13 +271,13 @@ class _WalletsViewState extends State<_WalletsView> {
                   SnackBar(
                     content: Row(
                       children: [
-                        const Icon(Icons.check_circle_rounded,
-                            color: Colors.white, size: 20),
+                        Icon(Icons.check_circle_rounded,
+                            color: scheme.onInverseSurface, size: 20),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
                             'Wallet "${state.wallet.ownerName ?? 'Anonymous'}" created!',
-                            style: const TextStyle(color: Colors.white),
+                            style: TextStyle(color: scheme.onInverseSurface),
                           ),
                         ),
                       ],
@@ -288,12 +291,12 @@ class _WalletsViewState extends State<_WalletsView> {
                   SnackBar(
                     content: Row(
                       children: [
-                        const Icon(Icons.error_outline_rounded,
-                            color: Colors.white, size: 20),
+                        Icon(Icons.error_outline_rounded,
+                            color: scheme.onInverseSurface, size: 20),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(state.message,
-                              style: const TextStyle(color: Colors.white)),
+                              style: TextStyle(color: scheme.onInverseSurface)),
                         ),
                       ],
                     ),
@@ -363,10 +366,6 @@ class _WalletsViewState extends State<_WalletsView> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: context.cbeColors.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
       builder: (_) => BlocProvider.value(
         value: context.read<WalletBloc>(),
         child: const CreateWalletDialog(),
@@ -410,10 +409,10 @@ class _WalletsViewState extends State<_WalletsView> {
                 color: colors.cbePurpleLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.account_balance_wallet_outlined,
                 size: 56,
-                color: AppTheme.cbePurple,
+                color: colors.cbePurple,
               ),
             ),
             const SizedBox(height: 24),
@@ -490,10 +489,10 @@ class _WalletsViewState extends State<_WalletsView> {
                 color: colors.errorRedLight,
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.wifi_off_rounded,
                 size: 56,
-                color: AppTheme.errorRed,
+                color: colors.errorRed,
               ),
             ),
             const SizedBox(height: 24),
