@@ -2,7 +2,7 @@ library;
 
 class ApiConstants {
   const ApiConstants._();
-  static const String baseUrl = 'http://10.0.2.2:5000';
+  static const String baseUrl = 'https://10.0.2.2:5000';
 
   // ── Wallet Endpoints ──────────────────────────────────────────────
   static const String wallets = '/api/v1/wallets';
