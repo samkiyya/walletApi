@@ -52,11 +52,15 @@ class _TransferSheetState extends State<TransferSheet> {
   Future<void> _loadWallets() async {
     try {
       final useCase = sl<GetWalletsUseCase>();
-      final result = await useCase(page: 1, pageSize: 100);
+      final (failure, pagedResult) = await useCase(page: 1, pageSize: 100);
       if (mounted) {
+        if (failure != null || pagedResult == null) {
+          setState(() => _isLoadingWallets = false);
+          return;
+        }
         setState(() {
           // Exclude the source wallet from the picker
-          _allWallets = result.items
+          _allWallets = pagedResult.items
               .where((w) => w.id != widget.fromWalletId)
               .toList();
           _filteredWallets = _allWallets;
