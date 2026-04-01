@@ -1,0 +1,47 @@
+name: wallet_app
+description: "Production-grade Flutter frontend for the Wallet API — CBE Assignment."
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # ── State Management ─────────────────────────────────────────────
+  flutter_bloc: ^9.0.0
+  equatable: ^2.0.7
+
+  # ── Routing ──────────────────────────────────────────────────────
+  go_router: ^15.0.0
+
+  # ── Networking ───────────────────────────────────────────────────
+  dio: ^5.8.0
+
+  # ── Dependency Injection ─────────────────────────────────────────
+  get_it: ^8.0.0
+
+  # ── Offline Persistence (Hive) ───────────────────────────────────
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  path_provider: ^2.1.5
+
+  # ── Utilities ────────────────────────────────────────────────────
+  uuid: ^4.5.1
+  intl: ^0.20.0
+
+  # ── UI / Design ──────────────────────────────────────────────────
+  google_fonts: ^6.2.1
+  shimmer: ^3.0.0
+  flutter_animate: ^4.5.2
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
