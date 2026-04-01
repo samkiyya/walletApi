@@ -436,9 +436,9 @@ class _TransferSheetState extends State<TransferSheet> {
                       shrinkWrap: true,
                       padding: const EdgeInsets.symmetric(vertical: 4),
                       itemCount: _filteredWallets.length,
-                      separatorBuilder: (_, __) =>
+                      separatorBuilder: (context, index) =>
                           Divider(height: 1, color: colors.divider),
-                      itemBuilder: (_, index) {
+                      itemBuilder: (context, index) {
                         final w = _filteredWallets[index];
                         return ListTile(
                           dense: true,
