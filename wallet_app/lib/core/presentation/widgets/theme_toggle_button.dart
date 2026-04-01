@@ -28,7 +28,7 @@ class ThemeToggleButton extends StatelessWidget {
       builder: (context, themeState) {
         final isDark = themeState.themeMode == ThemeMode.dark ||
             (themeState.themeMode == ThemeMode.system &&
-                MediaQuery.of(context).platformBrightness == Brightness.dark);
+                MediaQuery.platformBrightnessOf(context) == Brightness.dark);
         
         return IconButton(
           icon: Icon(

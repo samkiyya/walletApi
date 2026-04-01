@@ -13,11 +13,13 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/core/presentation/utils/responsive.dart';
 import 'package:wallet_app/core/presentation/widgets/cbe_hero_app_bar.dart';
 import 'package:wallet_app/di/injection_container.dart';
 import 'package:wallet_app/features/wallet/domain/entities/wallet.dart';
@@ -48,11 +50,32 @@ class _WalletsView extends StatefulWidget {
 
 class _WalletsViewState extends State<_WalletsView> {
   final _searchController = TextEditingController();
+  final _scrollController = ScrollController();
   String _searchQuery = '';
+  bool _isFabExtended = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+      if (_isFabExtended) {
+        setState(() => _isFabExtended = false);
+      }
+    } else {
+      if (!_isFabExtended) {
+        setState(() => _isFabExtended = true);
+      }
+    }
+  }
 
   @override
   void dispose() {
     _searchController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -77,7 +100,8 @@ class _WalletsViewState extends State<_WalletsView> {
       child: Scaffold(
         backgroundColor: colors.background,
         body: CustomScrollView(
-          physics: const AlwaysScrollableScrollPhysics(
+          controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(
             parent: BouncingScrollPhysics(),
           ),
           slivers: [
@@ -309,7 +333,7 @@ class _WalletsViewState extends State<_WalletsView> {
       child: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: 24,
-          vertical: MediaQuery.of(context).size.height * 0.05,
+          vertical: context.fluidHeight(40, min: 20, max: 80),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -14,6 +14,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/core/presentation/utils/responsive.dart';
 import 'package:wallet_app/core/presentation/widgets/theme_toggle_button.dart';
 
 class CbeHeroAppBar extends StatelessWidget {
@@ -62,7 +63,7 @@ class CbeHeroAppBar extends StatelessWidget {
 
       flexibleSpace: LayoutBuilder(
         builder: (context, constraints) {
-          final topPadding = MediaQuery.of(context).padding.top;
+          final topPadding = context.safeTop;
           final minExtent = kToolbarHeight + topPadding;
           final maxExtent = expandedHeight + topPadding;
           final currentHeight = constraints.maxHeight;

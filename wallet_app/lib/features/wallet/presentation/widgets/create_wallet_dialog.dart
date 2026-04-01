@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/core/presentation/utils/responsive.dart';
 import 'package:wallet_app/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:wallet_app/features/wallet/presentation/bloc/wallet_event.dart';
 
@@ -49,7 +50,7 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
         left: 24,
         right: 24,
         top: 24,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
+        bottom: context.keyboardHeight + 24,
       ),
       child: Form(
         key: _formKey,
