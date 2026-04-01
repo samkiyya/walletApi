@@ -73,199 +73,202 @@ class _WalletsViewState extends State<_WalletsView> {
     final colors = context.cbeColors;
     final scheme = Theme.of(context).colorScheme;
 
-    return Scaffold(
-      backgroundColor: colors.background,
-      body: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(
-          parent: BouncingScrollPhysics(),
-        ),
-        slivers: [
-          // ── CBE Branded App Bar ──────────────────────────────
-          CbeHeroAppBar(
-            title: 'My Wallets',
-            expandedHeight: 140,
-            heroContent: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: colors.onGradient.withValues(alpha: 0.15),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                    Icons.account_balance_rounded,
-                    color: colors.onGradient,
-                    size: 22,
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'CBE Wallet',
-                        style: TextStyle(
-                          color: colors.onGradient,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w800,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      Text(
-                        'Commercial Bank of Ethiopia',
-                        style: TextStyle(
-                          color: colors.onGradientMuted,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: colors.background,
+        body: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(
+            parent: BouncingScrollPhysics(),
           ),
-
-          // ── Search Bar ───────────────────────────────────────
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
-              child: TextField(
-                controller: _searchController,
-                onChanged: (value) =>
-                    setState(() => _searchQuery = value.trim()),
-                decoration: InputDecoration(
-                  hintText: 'Search by name or wallet ID...',
-                  prefixIcon:
-                      Icon(Icons.search_rounded, color: colors.textMuted),
-                  suffixIcon: _searchQuery.isNotEmpty
-                      ? IconButton(
-                          icon: Icon(Icons.clear_rounded,
-                              color: colors.textMuted),
-                          onPressed: () {
-                            _searchController.clear();
-                            setState(() => _searchQuery = '');
-                          },
-                        )
-                      : null,
-                  filled: true,
-                  fillColor: colors.surface,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: colors.divider),
+          slivers: [
+            // ── CBE Branded App Bar ──────────────────────────────
+            CbeHeroAppBar(
+              title: 'My Wallets',
+              expandedHeight: 140,
+              heroContent: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: colors.onGradient.withValues(alpha: 0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.account_balance_rounded,
+                      color: colors.onGradient,
+                      size: 22,
+                    ),
                   ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(color: colors.divider),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
-                        color: scheme.primary, width: 2),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 14),
-                ),
-              ),
-            ),
-          ),
-
-          // ── Body ──────────────────────────────────────────────
-          BlocConsumer<WalletBloc, WalletState>(
-            listener: (context, state) {
-              if (state is WalletCreated) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Row(
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.check_circle_rounded,
-                            color: scheme.onInverseSurface, size: 20),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            'Wallet "${state.wallet.ownerName ?? 'Anonymous'}" created!',
-                            style: TextStyle(color: scheme.onInverseSurface),
+                        Text(
+                          'CBE Wallet',
+                          style: TextStyle(
+                            color: colors.onGradient,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                        Text(
+                          'Commercial Bank of Ethiopia',
+                          style: TextStyle(
+                            color: colors.onGradientMuted,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
                           ),
                         ),
                       ],
                     ),
                   ),
-                );
-                context.read<WalletBloc>().add(const LoadWallets());
-              }
-              if (state is WalletError) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Row(
-                      children: [
-                        Icon(Icons.error_outline_rounded,
-                            color: scheme.onInverseSurface, size: 20),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Text(state.message,
-                              style: TextStyle(color: scheme.onInverseSurface)),
-                        ),
-                      ],
+                ],
+              ),
+            ),
+      
+            // ── Search Bar ───────────────────────────────────────
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                child: TextField(
+                  controller: _searchController,
+                  onChanged: (value) =>
+                      setState(() => _searchQuery = value.trim()),
+                  decoration: InputDecoration(
+                    hintText: 'Search by name or wallet ID...',
+                    prefixIcon:
+                        Icon(Icons.search_rounded, color: colors.textMuted),
+                    suffixIcon: _searchQuery.isNotEmpty
+                        ? IconButton(
+                            icon: Icon(Icons.clear_rounded,
+                                color: colors.textMuted),
+                            onPressed: () {
+                              _searchController.clear();
+                              setState(() => _searchQuery = '');
+                            },
+                          )
+                        : null,
+                    filled: true,
+                    fillColor: colors.surface,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: colors.divider),
                     ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(color: colors.divider),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: BorderSide(
+                          color: scheme.primary, width: 2),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 14),
                   ),
-                );
-              }
-            },
-            builder: (context, state) {
-              if (state is WalletLoading) {
+                ),
+              ),
+            ),
+      
+            // ── Body ──────────────────────────────────────────────
+            BlocConsumer<WalletBloc, WalletState>(
+              listener: (context, state) {
+                if (state is WalletCreated) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: [
+                          Icon(Icons.check_circle_rounded,
+                              color: scheme.onInverseSurface, size: 20),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Wallet "${state.wallet.ownerName ?? 'Anonymous'}" created!',
+                              style: TextStyle(color: scheme.onInverseSurface),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                  context.read<WalletBloc>().add(const LoadWallets());
+                }
+                if (state is WalletError) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        children: [
+                          Icon(Icons.error_outline_rounded,
+                              color: scheme.onInverseSurface, size: 20),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(state.message,
+                                style: TextStyle(color: scheme.onInverseSurface)),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+              builder: (context, state) {
+                if (state is WalletLoading) {
+                  return _buildShimmerLoading(colors);
+                }
+      
+                if (state is WalletsLoaded) {
+                  final filtered = _filterWallets(state.wallets);
+      
+                  if (state.wallets.isEmpty) {
+                    return SliverFillRemaining(
+                      child: _buildEmptyState(context, colors),
+                    );
+                  }
+      
+                  if (filtered.isEmpty) {
+                    return SliverFillRemaining(
+                      child: _buildNoResultsState(context, colors),
+                    );
+                  }
+      
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final wallet = filtered[index];
+                        return WalletCard(
+                          wallet: wallet,
+                          index: index,
+                          onTap: () =>
+                              context.push('/wallets/${wallet.id}'),
+                        );
+                      },
+                      childCount: filtered.length,
+                    ),
+                  );
+                }
+      
+                if (state is WalletError) {
+                  return SliverFillRemaining(
+                    child: _buildErrorState(context, state.message, colors),
+                  );
+                }
+      
                 return _buildShimmerLoading(colors);
-              }
-
-              if (state is WalletsLoaded) {
-                final filtered = _filterWallets(state.wallets);
-
-                if (state.wallets.isEmpty) {
-                  return SliverFillRemaining(
-                    child: _buildEmptyState(context, colors),
-                  );
-                }
-
-                if (filtered.isEmpty) {
-                  return SliverFillRemaining(
-                    child: _buildNoResultsState(context, colors),
-                  );
-                }
-
-                return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final wallet = filtered[index];
-                      return WalletCard(
-                        wallet: wallet,
-                        index: index,
-                        onTap: () =>
-                            context.push('/wallets/${wallet.id}'),
-                      );
-                    },
-                    childCount: filtered.length,
-                  ),
-                );
-              }
-
-              if (state is WalletError) {
-                return SliverFillRemaining(
-                  child: _buildErrorState(context, state.message, colors),
-                );
-              }
-
-              return _buildShimmerLoading(colors);
-            },
-          ),
-
-          // Bottom padding for FAB
-          const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _showCreateDialog(context),
-        icon: const Icon(Icons.add_rounded),
-        label: const Text('Wallet'),
+              },
+            ),
+      
+            // Bottom padding for FAB
+            const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () => _showCreateDialog(context),
+          icon: const Icon(Icons.add_rounded),
+          label: const Text('Wallet'),
+        ),
       ),
     );
   }

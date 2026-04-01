@@ -189,7 +189,7 @@ class _WalletDetailView extends StatelessWidget {
       expandedHeight: 220,
       heroContent: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             ownerName,
