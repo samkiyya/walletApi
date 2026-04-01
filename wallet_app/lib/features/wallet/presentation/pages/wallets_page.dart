@@ -18,6 +18,7 @@ import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/app/theme_cubit.dart';
 import 'package:wallet_app/di/injection_container.dart';
 import 'package:wallet_app/features/wallet/domain/entities/wallet.dart';
 import 'package:wallet_app/features/wallet/presentation/bloc/wallet_bloc.dart';
@@ -136,28 +137,45 @@ class _WalletsViewState extends State<_WalletsView> {
                                       ),
                                     ),
                                     const SizedBox(width: 10),
-                                    const Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'CBE Wallet',
-                                          style: TextStyle(
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'CBE Wallet',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w800,
+                                              letterSpacing: -0.5,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Commercial Bank of Ethiopia',
+                                            style: TextStyle(
+                                              color: Colors.white.withValues(alpha: 0.7),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    BlocBuilder<ThemeCubit, ThemeMode>(
+                                      builder: (context, themeMode) {
+                                        final isDark = themeMode == ThemeMode.dark ||
+                                            (themeMode == ThemeMode.system &&
+                                                MediaQuery.of(context).platformBrightness == Brightness.dark);
+                                        return IconButton(
+                                          icon: Icon(
+                                            isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
                                             color: Colors.white,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w800,
-                                            letterSpacing: -0.5,
                                           ),
-                                        ),
-                                        Text(
-                                          'Commercial Bank of Ethiopia',
-                                          style: TextStyle(
-                                            color: Colors.white70,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                        ),
-                                      ],
+                                          onPressed: () => context.read<ThemeCubit>().toggleTheme(context),
+                                          tooltip: 'Toggle Theme',
+                                        );
+                                      },
                                     ),
                                   ],
                                 ),
@@ -336,7 +354,7 @@ class _WalletsViewState extends State<_WalletsView> {
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showCreateDialog(context),
         icon: const Icon(Icons.add_rounded),
-        label: const Text('New Wallet'),
+        label: const Text('Wallet'),
       ),
     );
   }
@@ -379,7 +397,10 @@ class _WalletsViewState extends State<_WalletsView> {
   Widget _buildEmptyState(BuildContext context, CbeColors colors) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(40),
+        padding: EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: MediaQuery.of(context).size.height * 0.05,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -184,6 +184,7 @@ class _WalletDetailView extends StatelessWidget {
       pinned: true,
       backgroundColor: AppTheme.cbePurple,
       foregroundColor: Colors.white,
+      iconTheme: const IconThemeData(color: Colors.white),
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
           decoration: const BoxDecoration(gradient: AppTheme.heroGradient),

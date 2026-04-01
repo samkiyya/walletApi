@@ -10,6 +10,7 @@ Future<void> main() async {
 
   // 2. Initialize Hive for offline persistence
   await Hive.initFlutter();
+  await Hive.openBox('settings');
 
   // 3. Register all dependencies (Dio, DataSources, Repos, UseCases, BLoCs)
   await initializeDependencies();
