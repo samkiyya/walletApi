@@ -17,8 +17,8 @@ class WalletRepositoryImpl implements WalletRepository {
   const WalletRepositoryImpl({
     required WalletRemoteDataSource remote,
     required WalletLocalDataSource local,
-  })  : _remote = remote,
-        _local = local;
+  }) : _remote = remote,
+       _local = local;
 
   @override
   Future<(Failure?, Wallet?)> createWallet({String? ownerName}) async {
@@ -116,9 +116,7 @@ class WalletRepositoryImpl implements WalletRepository {
 
       if (data is Map<String, dynamic>) {
         if (data['errors'] is List) {
-          errors.addAll(
-            (data['errors'] as List).map((e) => e.toString()),
-          );
+          errors.addAll((data['errors'] as List).map((e) => e.toString()));
         }
         traceId = data['traceId'] as String?;
       }
@@ -126,10 +124,26 @@ class WalletRepositoryImpl implements WalletRepository {
       final message = errors.isNotEmpty ? errors.first : e.message ?? '';
 
       return switch (response.statusCode) {
-        404 => NotFoundFailure(message: message, errors: errors, traceId: traceId),
-        400 => ValidationFailure(message: message, errors: errors, traceId: traceId),
-        409 => ConflictFailure(message: message, errors: errors, traceId: traceId),
-        422 => InsufficientFundsFailure(message: message, errors: errors, traceId: traceId),
+        404 => NotFoundFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
+        400 => ValidationFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
+        409 => ConflictFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
+        422 => InsufficientFundsFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
         _ => ServerFailure(message: message, errors: errors, traceId: traceId),
       };
     }
@@ -140,11 +154,31 @@ class WalletRepositoryImpl implements WalletRepository {
   /// Maps [ApiException] (from envelope parsing) to typed [Failure].
   Failure _mapApiException(ApiException e) {
     return switch (e.statusCode) {
-      404 => NotFoundFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      400 => ValidationFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      409 => ConflictFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      422 => InsufficientFundsFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      _ => ServerFailure(message: e.message, errors: e.errors, traceId: e.traceId),
+      404 => NotFoundFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      400 => ValidationFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      409 => ConflictFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      422 => InsufficientFundsFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      _ => ServerFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
     };
   }
 

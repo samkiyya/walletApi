@@ -56,10 +56,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
 
   // ── Event Handlers ──────────────────────────────────────────────────
 
-  void _onThemeToggled(
-    ThemeToggled event,
-    Emitter<ThemeState> emit,
-  ) {
+  void _onThemeToggled(ThemeToggled event, Emitter<ThemeState> emit) {
     final current = state.themeMode;
     late final ThemeMode next;
 
@@ -77,10 +74,7 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     emit(ThemeState(themeMode: next));
   }
 
-  void _onThemeChanged(
-    ThemeChanged event,
-    Emitter<ThemeState> emit,
-  ) {
+  void _onThemeChanged(ThemeChanged event, Emitter<ThemeState> emit) {
     _persist(event.mode);
     emit(ThemeState(themeMode: event.mode));
   }

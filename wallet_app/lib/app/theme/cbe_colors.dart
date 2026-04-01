@@ -173,15 +173,17 @@ class CbeColors extends ThemeExtension<CbeColors> {
       textSecondary: Color.lerp(textSecondary, other.textSecondary, t)!,
       textMuted: Color.lerp(textMuted, other.textMuted, t)!,
       onGradient: Color.lerp(onGradient, other.onGradient, t)!,
-      onGradientMuted:
-          Color.lerp(onGradientMuted, other.onGradientMuted, t)!,
+      onGradientMuted: Color.lerp(onGradientMuted, other.onGradientMuted, t)!,
       handle: Color.lerp(handle, other.handle, t)!,
       cbePurple: Color.lerp(cbePurple, other.cbePurple, t)!,
       cbePurpleLight: Color.lerp(cbePurpleLight, other.cbePurpleLight, t)!,
       cbeGold: Color.lerp(cbeGold, other.cbeGold, t)!,
       successGreen: Color.lerp(successGreen, other.successGreen, t)!,
-      successGreenLight:
-          Color.lerp(successGreenLight, other.successGreenLight, t)!,
+      successGreenLight: Color.lerp(
+        successGreenLight,
+        other.successGreenLight,
+        t,
+      )!,
       errorRed: Color.lerp(errorRed, other.errorRed, t)!,
       errorRedLight: Color.lerp(errorRedLight, other.errorRedLight, t)!,
     );

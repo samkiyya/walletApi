@@ -36,8 +36,13 @@ final class TransactionsLoaded extends TransactionState {
   });
 
   @override
-  List<Object?> get props =>
-      [transactions, totalCount, page, pageSize, hasNextPage];
+  List<Object?> get props => [
+    transactions,
+    totalCount,
+    page,
+    pageSize,
+    hasNextPage,
+  ];
 }
 
 /// A financial operation (deposit/withdraw/transfer) completed successfully.

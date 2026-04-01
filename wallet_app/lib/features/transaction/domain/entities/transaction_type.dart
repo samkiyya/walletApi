@@ -1,4 +1,3 @@
-
 library;
 
 enum TransactionType {

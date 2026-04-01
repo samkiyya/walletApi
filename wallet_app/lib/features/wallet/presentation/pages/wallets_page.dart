@@ -61,11 +61,13 @@ class _WalletsViewState extends State<_WalletsView> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+    if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.reverse) {
       if (_isFabExtended) {
         setState(() => _isFabExtended = false);
       }
-    } else if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+    } else if (_scrollController.position.userScrollDirection ==
+        ScrollDirection.forward) {
       if (!_isFabExtended) {
         setState(() => _isFabExtended = true);
       }
@@ -84,8 +86,7 @@ class _WalletsViewState extends State<_WalletsView> {
     if (_searchQuery.isEmpty) return wallets;
     final query = _searchQuery.toLowerCase();
     return wallets.where((w) {
-      final nameMatch =
-          w.ownerName?.toLowerCase().contains(query) ?? false;
+      final nameMatch = w.ownerName?.toLowerCase().contains(query) ?? false;
       final idMatch = w.id.toLowerCase().contains(query);
       return nameMatch || idMatch;
     }).toList();
@@ -100,7 +101,7 @@ class _WalletsViewState extends State<_WalletsView> {
       backgroundColor: colors.background,
       body: CustomScrollView(
         controller: _scrollController,
-      physics: const AlwaysScrollableScrollPhysics(
+        physics: const AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
         slivers: [
@@ -151,7 +152,7 @@ class _WalletsViewState extends State<_WalletsView> {
               ],
             ),
           ),
-    
+
           // ── Search Bar ───────────────────────────────────────
           SliverToBoxAdapter(
             child: Padding(
@@ -162,12 +163,16 @@ class _WalletsViewState extends State<_WalletsView> {
                     setState(() => _searchQuery = value.trim()),
                 decoration: InputDecoration(
                   hintText: 'Search by name or wallet ID...',
-                  prefixIcon:
-                      Icon(Icons.search_rounded, color: colors.textMuted),
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: colors.textMuted,
+                  ),
                   suffixIcon: _searchQuery.isNotEmpty
                       ? IconButton(
-                          icon: Icon(Icons.clear_rounded,
-                              color: colors.textMuted),
+                          icon: Icon(
+                            Icons.clear_rounded,
+                            color: colors.textMuted,
+                          ),
                           onPressed: () {
                             _searchController.clear();
                             setState(() => _searchQuery = '');
@@ -186,16 +191,17 @@ class _WalletsViewState extends State<_WalletsView> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
-                        color: scheme.primary, width: 2),
+                    borderSide: BorderSide(color: scheme.primary, width: 2),
                   ),
                   contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 14),
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
                 ),
               ),
             ),
           ),
-    
+
           // ── Body ──────────────────────────────────────────────
           BlocConsumer<WalletBloc, WalletState>(
             listener: (context, state) {
@@ -204,8 +210,11 @@ class _WalletsViewState extends State<_WalletsView> {
                   SnackBar(
                     content: Row(
                       children: [
-                        Icon(Icons.check_circle_rounded,
-                            color: scheme.onInverseSurface, size: 20),
+                        Icon(
+                          Icons.check_circle_rounded,
+                          color: scheme.onInverseSurface,
+                          size: 20,
+                        ),
                         const SizedBox(width: 10),
                         Expanded(
                           child: Text(
@@ -224,12 +233,17 @@ class _WalletsViewState extends State<_WalletsView> {
                   SnackBar(
                     content: Row(
                       children: [
-                        Icon(Icons.error_outline_rounded,
-                            color: scheme.onInverseSurface, size: 20),
+                        Icon(
+                          Icons.error_outline_rounded,
+                          color: scheme.onInverseSurface,
+                          size: 20,
+                        ),
                         const SizedBox(width: 10),
                         Expanded(
-                          child: Text(state.message,
-                              style: TextStyle(color: scheme.onInverseSurface)),
+                          child: Text(
+                            state.message,
+                            style: TextStyle(color: scheme.onInverseSurface),
+                          ),
                         ),
                       ],
                     ),
@@ -241,54 +255,51 @@ class _WalletsViewState extends State<_WalletsView> {
               if (state is WalletLoading) {
                 return _buildShimmerLoading(colors);
               }
-    
+
               if (state is WalletsLoaded) {
                 final filtered = _filterWallets(state.wallets);
-    
+
                 if (state.wallets.isEmpty) {
                   return SliverFillRemaining(
                     child: _buildEmptyState(context, colors),
                   );
                 }
-    
+
                 if (filtered.isEmpty) {
                   return SliverFillRemaining(
                     child: _buildNoResultsState(context, colors),
                   );
                 }
-    
+
                 return SliverList(
-                  delegate: SliverChildBuilderDelegate(
-                    (context, index) {
-                      final wallet = filtered[index];
-                      return WalletCard(
-                        wallet: wallet,
-                        index: index,
-                        onTap: () =>
-                            context.push('/wallets/${wallet.id}'),
-                      );
-                    },
-                    childCount: filtered.length,
-                  ),
+                  delegate: SliverChildBuilderDelegate((context, index) {
+                    final wallet = filtered[index];
+                    return WalletCard(
+                      wallet: wallet,
+                      index: index,
+                      onTap: () => context.push('/wallets/${wallet.id}'),
+                    );
+                  }, childCount: filtered.length),
                 );
               }
-    
+
               if (state is WalletError) {
                 return SliverFillRemaining(
                   child: _buildErrorState(context, state.message, colors),
                 );
               }
-    
+
               return _buildShimmerLoading(colors);
             },
           ),
-    
+
           // Bottom padding for FAB
           const SliverPadding(padding: EdgeInsets.only(bottom: 100)),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _showCreateDialog(context),
+        isExtended: _isFabExtended,
         icon: const Icon(Icons.add_rounded),
         label: const Text('Wallet'),
       ),
@@ -408,7 +419,10 @@ class _WalletsViewState extends State<_WalletsView> {
   }
 
   Widget _buildErrorState(
-      BuildContext context, String message, CbeColors colors) {
+    BuildContext context,
+    String message,
+    CbeColors colors,
+  ) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),

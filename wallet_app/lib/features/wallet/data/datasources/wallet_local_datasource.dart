@@ -40,9 +40,7 @@ class WalletLocalDataSource {
     final box = await _openBox();
     final raw = box.get(id);
     if (raw == null) return null;
-    return WalletModel.fromJson(
-      jsonDecode(raw) as Map<String, dynamic>,
-    );
+    return WalletModel.fromJson(jsonDecode(raw) as Map<String, dynamic>);
   }
 
   /// Retrieves the cached list of all wallets, or null if not cached.

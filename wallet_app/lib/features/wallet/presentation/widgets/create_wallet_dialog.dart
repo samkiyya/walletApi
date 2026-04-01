@@ -34,8 +34,9 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
 
   void _submit() {
     if (_formKey.currentState?.validate() ?? false) {
-      final name =
-          _nameController.text.trim().isEmpty ? null : _nameController.text.trim();
+      final name = _nameController.text.trim().isEmpty
+          ? null
+          : _nameController.text.trim();
       context.read<WalletBloc>().add(CreateWalletRequested(ownerName: name));
       Navigator.of(context).pop();
     }
@@ -107,8 +108,10 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
               decoration: InputDecoration(
                 labelText: 'Owner Name',
                 hintText: 'e.g. Abebe Bikila',
-                prefixIcon: Icon(Icons.person_outline_rounded,
-                    color: colors.textMuted),
+                prefixIcon: Icon(
+                  Icons.person_outline_rounded,
+                  color: colors.textMuted,
+                ),
               ),
               validator: (value) {
                 if (value != null &&

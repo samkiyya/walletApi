@@ -24,32 +24,32 @@ class AppTheme {
   // ══════════════════════════════════════════════════════════════════════
 
   static ThemeData get lightTheme => _buildTheme(
-        brightness: Brightness.light,
-        cbeColors: CbeColors.light,
-        scaffoldBg: const Color(0xFFF7F7FA),
-        surfaceColor: const Color(0xFFFFFFFF),
-        onSurfaceColor: const Color(0xFF1A1A2E),
-        inputFillColor: const Color(0xFFF4F4F8),
-        dividerColor: const Color(0xFFE8E8EE),
-        appBarBg: const Color(0xFFFFFFFF),
-        appBarFg: const Color(0xFF1A1A2E),
-        snackBarBg: const Color(0xFF2D2D3A),
-        cardBorderColor: const Color(0xFFE8E8EE),
-      );
+    brightness: Brightness.light,
+    cbeColors: CbeColors.light,
+    scaffoldBg: const Color(0xFFF7F7FA),
+    surfaceColor: const Color(0xFFFFFFFF),
+    onSurfaceColor: const Color(0xFF1A1A2E),
+    inputFillColor: const Color(0xFFF4F4F8),
+    dividerColor: const Color(0xFFE8E8EE),
+    appBarBg: const Color(0xFFFFFFFF),
+    appBarFg: const Color(0xFF1A1A2E),
+    snackBarBg: const Color(0xFF2D2D3A),
+    cardBorderColor: const Color(0xFFE8E8EE),
+  );
 
   static ThemeData get darkTheme => _buildTheme(
-        brightness: Brightness.dark,
-        cbeColors: CbeColors.dark,
-        scaffoldBg: const Color(0xFF101014),
-        surfaceColor: const Color(0xFF1C1C24),
-        onSurfaceColor: const Color(0xFFEEEEF2),
-        inputFillColor: const Color(0xFF22222C),
-        dividerColor: const Color(0xFF2E2E3A),
-        appBarBg: const Color(0xFF1C1C24),
-        appBarFg: const Color(0xFFEEEEF2),
-        snackBarBg: const Color(0xFF2A2A34),
-        cardBorderColor: const Color(0xFF2E2E3A),
-      );
+    brightness: Brightness.dark,
+    cbeColors: CbeColors.dark,
+    scaffoldBg: const Color(0xFF101014),
+    surfaceColor: const Color(0xFF1C1C24),
+    onSurfaceColor: const Color(0xFFEEEEF2),
+    inputFillColor: const Color(0xFF22222C),
+    dividerColor: const Color(0xFF2E2E3A),
+    appBarBg: const Color(0xFF1C1C24),
+    appBarFg: const Color(0xFFEEEEF2),
+    snackBarBg: const Color(0xFF2A2A34),
+    cardBorderColor: const Color(0xFF2E2E3A),
+  );
 
   // ══════════════════════════════════════════════════════════════════════
   // PRIVATE BUILDER
@@ -69,10 +69,12 @@ class AppTheme {
     required Color cardBorderColor,
   }) {
     final isDark = brightness == Brightness.dark;
-    final textSecondaryColor =
-        isDark ? const Color(0xFFB0B0C0) : const Color(0xFF5A5A72);
-    final textMutedColor =
-        isDark ? const Color(0xFF7878A0) : const Color(0xFF9090A7);
+    final textSecondaryColor = isDark
+        ? const Color(0xFFB0B0C0)
+        : const Color(0xFF5A5A72);
+    final textMutedColor = isDark
+        ? const Color(0xFF7878A0)
+        : const Color(0xFF9090A7);
 
     return ThemeData(
       useMaterial3: true,
@@ -111,7 +113,9 @@ class AppTheme {
       elevatedButtonTheme: CbeComponentThemes.elevatedButton(),
       outlinedButtonTheme: CbeComponentThemes.outlinedButton(),
       textButtonTheme: CbeComponentThemes.textButton(),
-      iconButtonTheme: CbeComponentThemes.iconButton(foreground: onSurfaceColor),
+      iconButtonTheme: CbeComponentThemes.iconButton(
+        foreground: onSurfaceColor,
+      ),
       iconTheme: IconThemeData(color: onSurfaceColor, size: 24),
       inputDecorationTheme: CbeComponentThemes.inputDecoration(
         fillColor: inputFillColor,
@@ -150,11 +154,7 @@ class AppTheme {
 
   // ── Text Theme ──────────────────────────────────────────────────────
 
-  static TextTheme _textTheme(
-    Color primary,
-    Color secondary,
-    Color muted,
-  ) {
+  static TextTheme _textTheme(Color primary, Color secondary, Color muted) {
     return GoogleFonts.interTextTheme(
       TextTheme(
         displayLarge: TextStyle(

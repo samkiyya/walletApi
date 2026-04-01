@@ -43,12 +43,12 @@ class WalletDetailPage extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) =>
-              sl<WalletBloc>()..add(LoadWalletDetail(walletId)),
+          create: (_) => sl<WalletBloc>()..add(LoadWalletDetail(walletId)),
         ),
         BlocProvider(
-          create: (_) => sl<TransactionBloc>()
-            ..add(LoadTransactions(walletId: walletId, pageSize: 5)),
+          create: (_) =>
+              sl<TransactionBloc>()
+                ..add(LoadTransactions(walletId: walletId, pageSize: 5)),
         ),
       ],
       child: _WalletDetailView(walletId: walletId),
@@ -75,13 +75,18 @@ class _WalletDetailView extends StatelessWidget {
               SnackBar(
                 content: Row(
                   children: [
-                    Icon(Icons.check_circle_rounded,
-                        color: scheme.onInverseSurface, size: 20),
+                    Icon(
+                      Icons.check_circle_rounded,
+                      color: scheme.onInverseSurface,
+                      size: 20,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
-                        child: Text(txState.message,
-                            style: TextStyle(
-                                color: scheme.onInverseSurface))),
+                      child: Text(
+                        txState.message,
+                        style: TextStyle(color: scheme.onInverseSurface),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -89,21 +94,26 @@ class _WalletDetailView extends StatelessWidget {
             // Refresh wallet balance and transactions after operation
             context.read<WalletBloc>().add(LoadWalletDetail(walletId));
             context.read<TransactionBloc>().add(
-                  LoadTransactions(walletId: walletId, pageSize: 5),
-                );
+              LoadTransactions(walletId: walletId, pageSize: 5),
+            );
           }
           if (txState is TransactionError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Row(
                   children: [
-                    Icon(Icons.error_outline_rounded,
-                        color: scheme.onInverseSurface, size: 20),
+                    Icon(
+                      Icons.error_outline_rounded,
+                      color: scheme.onInverseSurface,
+                      size: 20,
+                    ),
                     const SizedBox(width: 10),
                     Expanded(
-                        child: Text(txState.message,
-                            style: TextStyle(
-                                color: scheme.onInverseSurface))),
+                      child: Text(
+                        txState.message,
+                        style: TextStyle(color: scheme.onInverseSurface),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -120,34 +130,26 @@ class _WalletDetailView extends StatelessWidget {
                   _buildSliverAppBar(context, walletState),
 
                   // ── Action Buttons ─────────────────────────────
-                  SliverToBoxAdapter(
-                    child: _buildActionButtons(context),
-                  ),
+                  SliverToBoxAdapter(child: _buildActionButtons(context)),
 
                   // ── Wallet ID Copy Section ─────────────────────
-                  SliverToBoxAdapter(
-                    child: _buildWalletIdSection(context),
-                  ),
+                  SliverToBoxAdapter(child: _buildWalletIdSection(context)),
 
                   // ── Recent Transactions Header ─────────────────
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding:
-                          const EdgeInsets.fromLTRB(20, 24, 20, 8),
+                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             'Recent Transactions',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
+                            style: Theme.of(context).textTheme.titleLarge
                                 ?.copyWith(fontWeight: FontWeight.w700),
                           ),
                           TextButton(
-                            onPressed: () => context.push(
-                              '/wallets/$walletId/transactions',
-                            ),
+                            onPressed: () =>
+                                context.push('/wallets/$walletId/transactions'),
                             child: const Text('See All'),
                           ),
                         ],
@@ -158,8 +160,7 @@ class _WalletDetailView extends StatelessWidget {
                   // ── Transaction List ───────────────────────────
                   _buildTransactionList(context, txState),
 
-                  const SliverPadding(
-                      padding: EdgeInsets.only(bottom: 32)),
+                  const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
                 ],
               );
             },
@@ -173,8 +174,10 @@ class _WalletDetailView extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context, WalletState state) {
     final colors = context.cbeColors;
-    final currencyFormat =
-        NumberFormat.currency(symbol: 'ETB ', decimalDigits: 2);
+    final currencyFormat = NumberFormat.currency(
+      symbol: 'ETB ',
+      decimalDigits: 2,
+    );
 
     String balance = 'ETB 0.00';
     String ownerName = 'Loading...';
@@ -201,16 +204,15 @@ class _WalletDetailView extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            balance,
-            style: TextStyle(
-              color: colors.onGradient,
-              fontSize: 36,
-              fontWeight: FontWeight.w800,
-              letterSpacing: -1,
-            ),
-          )
-              .animate(
-                  target: state is WalletDetailLoaded ? 1 : 0)
+                balance,
+                style: TextStyle(
+                  color: colors.onGradient,
+                  fontSize: 36,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: -1,
+                ),
+              )
+              .animate(target: state is WalletDetailLoaded ? 1 : 0)
               .fadeIn(duration: 400.ms)
               .slideY(begin: 0.2, end: 0, duration: 400.ms),
           const SizedBox(height: 4),
@@ -234,35 +236,35 @@ class _WalletDetailView extends StatelessWidget {
     final colors = context.cbeColors;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
-      child: Row(
-        children: [
-          _ActionButton(
-            icon: Icons.south_west_rounded,
-            label: 'Deposit',
-            color: colors.successGreen,
-            bgColor: colors.successGreenLight,
-            onTap: () => _showDeposit(context),
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+          child: Row(
+            children: [
+              _ActionButton(
+                icon: Icons.south_west_rounded,
+                label: 'Deposit',
+                color: colors.successGreen,
+                bgColor: colors.successGreenLight,
+                onTap: () => _showDeposit(context),
+              ),
+              const SizedBox(width: 12),
+              _ActionButton(
+                icon: Icons.north_east_rounded,
+                label: 'Withdraw',
+                color: colors.errorRed,
+                bgColor: colors.errorRedLight,
+                onTap: () => _showWithdraw(context),
+              ),
+              const SizedBox(width: 12),
+              _ActionButton(
+                icon: Icons.swap_horiz_rounded,
+                label: 'Transfer',
+                color: colors.cbePurple,
+                bgColor: colors.cbePurpleLight,
+                onTap: () => _showTransfer(context),
+              ),
+            ],
           ),
-          const SizedBox(width: 12),
-          _ActionButton(
-            icon: Icons.north_east_rounded,
-            label: 'Withdraw',
-            color: colors.errorRed,
-            bgColor: colors.errorRedLight,
-            onTap: () => _showWithdraw(context),
-          ),
-          const SizedBox(width: 12),
-          _ActionButton(
-            icon: Icons.swap_horiz_rounded,
-            label: 'Transfer',
-            color: colors.cbePurple,
-            bgColor: colors.cbePurpleLight,
-            onTap: () => _showTransfer(context),
-          ),
-        ],
-      ),
-    )
+        )
         .animate()
         .fadeIn(duration: 500.ms, delay: 200.ms)
         .slideY(begin: 0.15, end: 0, duration: 500.ms, delay: 200.ms);
@@ -289,10 +291,10 @@ class _WalletDetailView extends StatelessWidget {
             child: Text(
               walletId,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontFamily: 'monospace',
-                    fontSize: 12,
-                    color: colors.textSecondary,
-                  ),
+                fontFamily: 'monospace',
+                fontSize: 12,
+                color: colors.textSecondary,
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -336,8 +338,7 @@ class _WalletDetailView extends StatelessWidget {
 
   // ── Transaction List ──────────────────────────────────────────────
 
-  Widget _buildTransactionList(
-      BuildContext context, TransactionState txState) {
+  Widget _buildTransactionList(BuildContext context, TransactionState txState) {
     final colors = context.cbeColors;
 
     if (txState is TransactionLoading) {
@@ -361,8 +362,11 @@ class _WalletDetailView extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Icon(Icons.receipt_long_outlined,
-                    size: 48, color: colors.textMuted),
+                Icon(
+                  Icons.receipt_long_outlined,
+                  size: 48,
+                  color: colors.textMuted,
+                ),
                 const SizedBox(height: 12),
                 Text(
                   'No transactions yet',
@@ -439,11 +443,13 @@ class _WalletDetailView extends StatelessWidget {
       builder: (_) => TransferSheet(
         fromWalletId: walletId,
         onSubmit: (toWalletId, amount) {
-          txBloc.add(SubmitTransfer(
-            fromWalletId: walletId,
-            toWalletId: toWalletId,
-            amount: amount,
-          ));
+          txBloc.add(
+            SubmitTransfer(
+              fromWalletId: walletId,
+              toWalletId: toWalletId,
+              amount: amount,
+            ),
+          );
         },
       ),
     );

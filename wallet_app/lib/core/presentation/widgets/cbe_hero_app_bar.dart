@@ -5,7 +5,7 @@
 /// - Smooth collapse animation into a standard app bar
 /// - Native [actions] for perfect vertical alignment
 /// - Flawless safe-area handling preventing layout bleeding
-/// - Interpolated cross-fades ensuring crisp typography 
+/// - Interpolated cross-fades ensuring crisp typography
 ///
 /// Use this for top-level pages that need a strong branding presence
 /// (like the Wallets list or Wallet Details). Use [CbeAppBar] for simpler inner pages.
@@ -50,10 +50,12 @@ class CbeHeroAppBar extends StatelessWidget {
       pinned: true,
       stretch: true, // Overscroll bounce effect
       backgroundColor: scheme.primary,
-      surfaceTintColor: Colors.transparent, // Prevents M3 auto-tinting scroll artifacts
+      surfaceTintColor:
+          Colors.transparent, // Prevents M3 auto-tinting scroll artifacts
       elevation: 0,
-      iconTheme: IconThemeData(color: colors.onGradient), // Standard back button color
-      
+      iconTheme: IconThemeData(
+        color: colors.onGradient,
+      ), // Standard back button color
       // Native actions layer, guaranteeing perfect vertical centering within kToolbarHeight
       actions: [
         ...?actions,
@@ -67,11 +69,14 @@ class CbeHeroAppBar extends StatelessWidget {
           final minExtent = kToolbarHeight + topPadding;
           final maxExtent = expandedHeight + topPadding;
           final currentHeight = constraints.maxHeight;
-          
+
           // 0.0 = fully collapsed, 1.0 = fully expanded
-          final expansionRatio = 
-              ((currentHeight - minExtent) / (maxExtent - minExtent)).clamp(0.0, 1.0);
-          
+          final expansionRatio =
+              ((currentHeight - minExtent) / (maxExtent - minExtent)).clamp(
+                0.0,
+                1.0,
+              );
+
           // Cross-fade opacity curves natively synced to scroll
           final titleOpacity = (1.0 - (expansionRatio * 2)).clamp(0.0, 1.0);
           final heroOpacity = ((expansionRatio - 0.2) * 1.5).clamp(0.0, 1.0);
@@ -81,11 +86,9 @@ class CbeHeroAppBar extends StatelessWidget {
             children: [
               // 1. Background Gradient (stretches natively)
               Container(
-                decoration: const BoxDecoration(
-                  gradient: kHeroGradient,
-                ),
+                decoration: const BoxDecoration(gradient: kHeroGradient),
               ),
-              
+
               // 2. Solid color overlay when collapsing to erase gradient noise
               Opacity(
                 opacity: 1.0 - expansionRatio,
@@ -96,16 +99,14 @@ class CbeHeroAppBar extends StatelessWidget {
               Positioned(
                 left: 20,
                 right: 20,
-                bottom: 20, // Anchors to the collapsing bottom edge, naturally drifting upwards
-                child: Opacity(
-                  opacity: heroOpacity,
-                  child: heroContent,
-                ),
+                bottom:
+                    20, // Anchors to the collapsing bottom edge, naturally drifting upwards
+                child: Opacity(opacity: heroOpacity, child: heroContent),
               ),
 
               // 4. Centered Collapsed Title aligned securely in the toolbar matrix
               Positioned(
-                top: topPadding, 
+                top: topPadding,
                 left: 56, // Clears back button
                 right: 56, // Clears actions
                 height: kToolbarHeight,

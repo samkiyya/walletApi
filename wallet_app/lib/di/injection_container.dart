@@ -65,14 +65,12 @@ Future<void> initializeDependencies() async {
   sl.registerLazySingleton(() => CreateWalletUseCase(sl<WalletRepository>()));
   sl.registerLazySingleton(() => GetWalletUseCase(sl<WalletRepository>()));
   sl.registerLazySingleton(() => GetWalletsUseCase(sl<WalletRepository>()));
+  sl.registerLazySingleton(() => DepositUseCase(sl<TransactionRepository>()));
+  sl.registerLazySingleton(() => WithdrawUseCase(sl<TransactionRepository>()));
+  sl.registerLazySingleton(() => TransferUseCase(sl<TransactionRepository>()));
   sl.registerLazySingleton(
-      () => DepositUseCase(sl<TransactionRepository>()));
-  sl.registerLazySingleton(
-      () => WithdrawUseCase(sl<TransactionRepository>()));
-  sl.registerLazySingleton(
-      () => TransferUseCase(sl<TransactionRepository>()));
-  sl.registerLazySingleton(
-      () => GetTransactionsUseCase(sl<TransactionRepository>()));
+    () => GetTransactionsUseCase(sl<TransactionRepository>()),
+  );
 
   // ── BLoCs (Factories — new instance per widget lifecycle) ─────────
   sl.registerFactory(

@@ -22,11 +22,11 @@ class PagedResponseModel<T> {
     Map<String, dynamic> json,
     T Function(Map<String, dynamic>) itemParser,
   ) => PagedResponseModel<T>(
-      items: (json['items'] as List<dynamic>)
-          .map((e) => itemParser(e as Map<String, dynamic>))
-          .toList(),
-      totalCount: json['totalCount'] as int,
-      page: json['page'] as int,
-      pageSize: json['pageSize'] as int,
-    );
+    items: (json['items'] as List<dynamic>)
+        .map((e) => itemParser(e as Map<String, dynamic>))
+        .toList(),
+    totalCount: json['totalCount'] as int,
+    page: json['page'] as int,
+    pageSize: json['pageSize'] as int,
+  );
 }

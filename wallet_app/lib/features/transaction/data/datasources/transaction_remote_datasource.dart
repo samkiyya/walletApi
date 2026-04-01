@@ -58,8 +58,7 @@ class TransactionRemoteDataSource {
 
     final envelope = ApiEnvelope.fromJson(
       response.data as Map<String, dynamic>,
-      (data) =>
-          TransferResponseModel.fromJson(data as Map<String, dynamic>),
+      (data) => TransferResponseModel.fromJson(data as Map<String, dynamic>),
     );
 
     if (!envelope.success || envelope.data == null) {
@@ -109,8 +108,7 @@ class TransactionRemoteDataSource {
   TransactionModel _parseTransactionResponse(Response response) {
     final envelope = ApiEnvelope.fromJson(
       response.data as Map<String, dynamic>,
-      (data) =>
-          TransactionModel.fromJson(data as Map<String, dynamic>),
+      (data) => TransactionModel.fromJson(data as Map<String, dynamic>),
     );
 
     if (!envelope.success || envelope.data == null) {

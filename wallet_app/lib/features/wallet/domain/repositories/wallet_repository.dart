@@ -22,7 +22,6 @@ class PagedResult<T> {
 
 /// Abstract wallet repository — implemented by [WalletRepositoryImpl].
 abstract class WalletRepository {
-  
   /// Creates a new wallet with an optional [ownerName].
   Future<(Failure?, Wallet?)> createWallet({String? ownerName});
 

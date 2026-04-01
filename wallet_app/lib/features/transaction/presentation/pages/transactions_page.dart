@@ -30,8 +30,8 @@ class TransactionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<TransactionBloc>()
-        ..add(LoadTransactions(walletId: walletId)),
+      create: (_) =>
+          sl<TransactionBloc>()..add(LoadTransactions(walletId: walletId)),
       child: _TransactionsView(walletId: walletId),
     );
   }
@@ -49,9 +49,7 @@ class _TransactionsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: const CbeAppBar(
-        title: 'Transaction History',
-      ),
+      appBar: const CbeAppBar(title: 'Transaction History'),
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {
           if (state is TransactionLoading) {
@@ -67,8 +65,8 @@ class _TransactionsView extends StatelessWidget {
               color: scheme.primary,
               onRefresh: () async {
                 context.read<TransactionBloc>().add(
-                      LoadTransactions(walletId: walletId),
-                    );
+                  LoadTransactions(walletId: walletId),
+                );
                 await Future.delayed(const Duration(milliseconds: 500));
               },
               child: ListView.builder(
@@ -76,18 +74,18 @@ class _TransactionsView extends StatelessWidget {
                   parent: BouncingScrollPhysics(),
                 ),
                 padding: const EdgeInsets.only(top: 12, bottom: 32),
-                itemCount: state.transactions.length +
-                    (state.hasNextPage ? 1 : 0),
+                itemCount:
+                    state.transactions.length + (state.hasNextPage ? 1 : 0),
                 itemBuilder: (context, index) {
                   // ── Load more trigger ─────────────────────────
                   if (index == state.transactions.length) {
                     // Trigger next page load
                     context.read<TransactionBloc>().add(
-                          LoadTransactions(
-                            walletId: walletId,
-                            page: state.page + 1,
-                          ),
-                        );
+                      LoadTransactions(
+                        walletId: walletId,
+                        page: state.page + 1,
+                      ),
+                    );
                     return Padding(
                       padding: const EdgeInsets.all(24),
                       child: Center(
@@ -174,7 +172,10 @@ class _TransactionsView extends StatelessWidget {
   }
 
   Widget _buildErrorState(
-      BuildContext context, String message, CbeColors colors) {
+    BuildContext context,
+    String message,
+    CbeColors colors,
+  ) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -194,14 +195,16 @@ class _TransactionsView extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyLarge),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
             const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () => context.read<TransactionBloc>().add(
-                    LoadTransactions(walletId: walletId),
-                  ),
+                LoadTransactions(walletId: walletId),
+              ),
               icon: const Icon(Icons.refresh_rounded),
               label: const Text('Retry'),
             ),

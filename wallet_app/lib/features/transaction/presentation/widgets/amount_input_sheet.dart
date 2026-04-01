@@ -95,8 +95,7 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                     gradient: widget.gradient,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(widget.icon,
-                      color: colors.onGradient, size: 22),
+                  child: Icon(widget.icon, color: colors.onGradient, size: 22),
                 ),
                 const SizedBox(width: 12),
                 Column(
@@ -119,15 +118,16 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
             // ── Amount Field ────────────────────────────────────
             TextFormField(
               controller: _amountController,
-              keyboardType:
-                  const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),
               ],
               style: Theme.of(context).textTheme.displayMedium?.copyWith(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                  ),
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+              ),
               decoration: InputDecoration(
                 labelText: 'Amount (ETB)',
                 hintText: '0.00',
@@ -135,16 +135,17 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                   padding: const EdgeInsets.only(left: 16, right: 8),
                   child: Text(
                     'ETB',
-                    style:
-                        Theme.of(context).textTheme.displayMedium?.copyWith(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              color: colors.cbePurple,
-                            ),
+                    style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: colors.cbePurple,
+                    ),
                   ),
                 ),
-                prefixIconConstraints:
-                    const BoxConstraints(minWidth: 0, minHeight: 0),
+                prefixIconConstraints: const BoxConstraints(
+                  minWidth: 0,
+                  minHeight: 0,
+                ),
               ),
               validator: (value) {
                 if (value == null || value.trim().isEmpty) {
@@ -175,12 +176,12 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                       },
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 10),
-                        side: BorderSide(
-                          color: colors.divider,
-                        ),
+                        side: BorderSide(color: colors.divider),
                       ),
-                      child: Text('$amount',
-                          style: const TextStyle(fontSize: 12)),
+                      child: Text(
+                        '$amount',
+                        style: const TextStyle(fontSize: 12),
+                      ),
                     ),
                   ),
                 );

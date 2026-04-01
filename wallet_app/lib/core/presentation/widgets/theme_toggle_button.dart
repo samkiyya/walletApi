@@ -17,19 +17,17 @@ import 'package:wallet_app/app/bloc/theme_state.dart';
 class ThemeToggleButton extends StatelessWidget {
   final Color? color;
 
-  const ThemeToggleButton({
-    super.key,
-    this.color,
-  });
+  const ThemeToggleButton({super.key, this.color});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ThemeBloc, ThemeState>(
       builder: (context, themeState) {
-        final isDark = themeState.themeMode == ThemeMode.dark ||
+        final isDark =
+            themeState.themeMode == ThemeMode.dark ||
             (themeState.themeMode == ThemeMode.system &&
                 MediaQuery.platformBrightnessOf(context) == Brightness.dark);
-        
+
         return IconButton(
           icon: Icon(
             isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,

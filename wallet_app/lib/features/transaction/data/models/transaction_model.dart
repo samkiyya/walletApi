@@ -51,16 +51,12 @@ class TransferResponseModel {
   final TransactionModel debit;
   final TransactionModel credit;
 
-  const TransferResponseModel({
-    required this.debit,
-    required this.credit,
-  });
+  const TransferResponseModel({required this.debit, required this.credit});
 
   factory TransferResponseModel.fromJson(Map<String, dynamic> json) {
     return TransferResponseModel(
       debit: TransactionModel.fromJson(json['debit'] as Map<String, dynamic>),
-      credit:
-          TransactionModel.fromJson(json['credit'] as Map<String, dynamic>),
+      credit: TransactionModel.fromJson(json['credit'] as Map<String, dynamic>),
     );
   }
 }

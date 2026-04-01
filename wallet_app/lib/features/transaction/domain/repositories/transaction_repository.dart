@@ -13,7 +13,6 @@ class TransferResult {
 }
 
 abstract class TransactionRepository {
-
   Future<(Failure?, Transaction?)> deposit({
     required String walletId,
     required double amount,

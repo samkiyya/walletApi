@@ -43,10 +43,7 @@ class CbeComponentThemes {
   }
 
   // ── Card ────────────────────────────────────────────────────────────
-  static CardThemeData card({
-    required Color surface,
-    required Color border,
-  }) {
+  static CardThemeData card({required Color surface, required Color border}) {
     return CardThemeData(
       color: surface,
       elevation: 0,
@@ -65,13 +62,8 @@ class CbeComponentThemes {
         backgroundColor: kCbePurple,
         foregroundColor: kOnGradient,
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        textStyle: GoogleFonts.inter(
-          fontSize: 16,
-          fontWeight: FontWeight.w700,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w700),
         elevation: 0,
       ),
     );
@@ -84,13 +76,8 @@ class CbeComponentThemes {
         foregroundColor: kCbePurple,
         side: const BorderSide(color: kCbePurple, width: 1.5),
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(14),
-        ),
-        textStyle: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -100,10 +87,7 @@ class CbeComponentThemes {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: kCbePurple,
-        textStyle: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-        ),
+        textStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -123,8 +107,7 @@ class CbeComponentThemes {
     return InputDecorationTheme(
       filled: true,
       fillColor: fillColor,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(14),
         borderSide: BorderSide.none,
@@ -145,11 +128,11 @@ class CbeComponentThemes {
   // ── FAB ─────────────────────────────────────────────────────────────
   static const FloatingActionButtonThemeData fab =
       FloatingActionButtonThemeData(
-    backgroundColor: kCbePurple,
-    foregroundColor: kOnGradient,
-    elevation: 3,
-    shape: CircleBorder(),
-  );
+        backgroundColor: kCbePurple,
+        foregroundColor: kOnGradient,
+        elevation: 3,
+        shape: CircleBorder(),
+      );
 
   // ── SnackBar ────────────────────────────────────────────────────────
   static SnackBarThemeData snackBar({required Color background}) {
@@ -188,8 +171,7 @@ class CbeComponentThemes {
     return ListTileThemeData(
       textColor: textColor,
       iconColor: iconColor,
-      contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
     );
   }
 
@@ -267,8 +249,10 @@ class CbeComponentThemes {
       indicatorColor: kCbePurple,
       indicatorSize: TabBarIndicatorSize.label,
       labelStyle: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600),
-      unselectedLabelStyle:
-          GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w500),
+      unselectedLabelStyle: GoogleFonts.inter(
+        fontSize: 14,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
 
@@ -289,10 +273,16 @@ class CbeComponentThemes {
       labelTextStyle: WidgetStateProperty.resolveWith((states) {
         if (states.contains(WidgetState.selected)) {
           return GoogleFonts.inter(
-              fontSize: 12, fontWeight: FontWeight.w600, color: kCbePurple);
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: kCbePurple,
+          );
         }
         return GoogleFonts.inter(
-            fontSize: 12, fontWeight: FontWeight.w500, color: muted);
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+          color: muted,
+        );
       }),
     );
   }

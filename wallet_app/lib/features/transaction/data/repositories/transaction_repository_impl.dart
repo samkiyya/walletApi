@@ -21,9 +21,9 @@ class TransactionRepositoryImpl implements TransactionRepository {
     required TransactionRemoteDataSource remote,
     required TransactionLocalDataSource localTx,
     required WalletLocalDataSource localWallet,
-  })  : _remote = remote,
-        _localTx = localTx,
-        _localWallet = localWallet;
+  }) : _remote = remote,
+       _localTx = localTx,
+       _localWallet = localWallet;
 
   @override
   Future<(Failure?, Transaction?)> deposit({
@@ -89,10 +89,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
       // Invalidate caches for both wallets
       await _invalidateCaches(fromWalletId);
       await _invalidateCaches(toWalletId);
-      return (
-        null,
-        TransferResult(debit: result.debit, credit: result.credit),
-      );
+      return (null, TransferResult(debit: result.debit, credit: result.credit));
     } on DioException catch (e) {
       return (_mapDioException(e), null);
     } on ApiException catch (e) {
@@ -116,7 +113,10 @@ class TransactionRepositoryImpl implements TransactionRepository {
       );
       // Cache first page of transactions for offline browsing
       if (page == 1) {
-        await _localTx.cacheTransactions(walletId, paged.items.cast<TransactionModel>());
+        await _localTx.cacheTransactions(
+          walletId,
+          paged.items.cast<TransactionModel>(),
+        );
       }
       return (
         null,
@@ -173,9 +173,7 @@ class TransactionRepositoryImpl implements TransactionRepository {
 
       if (data is Map<String, dynamic>) {
         if (data['errors'] is List) {
-          errors.addAll(
-            (data['errors'] as List).map((e) => e.toString()),
-          );
+          errors.addAll((data['errors'] as List).map((e) => e.toString()));
         }
         traceId = data['traceId'] as String?;
       }
@@ -183,10 +181,26 @@ class TransactionRepositoryImpl implements TransactionRepository {
       final message = errors.isNotEmpty ? errors.first : e.message ?? '';
 
       return switch (response.statusCode) {
-        404 => NotFoundFailure(message: message, errors: errors, traceId: traceId),
-        400 => ValidationFailure(message: message, errors: errors, traceId: traceId),
-        409 => ConflictFailure(message: message, errors: errors, traceId: traceId),
-        422 => InsufficientFundsFailure(message: message, errors: errors, traceId: traceId),
+        404 => NotFoundFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
+        400 => ValidationFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
+        409 => ConflictFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
+        422 => InsufficientFundsFailure(
+          message: message,
+          errors: errors,
+          traceId: traceId,
+        ),
         _ => ServerFailure(message: message, errors: errors, traceId: traceId),
       };
     }
@@ -196,11 +210,31 @@ class TransactionRepositoryImpl implements TransactionRepository {
 
   Failure _mapApiException(ApiException e) {
     return switch (e.statusCode) {
-      404 => NotFoundFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      400 => ValidationFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      409 => ConflictFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      422 => InsufficientFundsFailure(message: e.message, errors: e.errors, traceId: e.traceId),
-      _ => ServerFailure(message: e.message, errors: e.errors, traceId: e.traceId),
+      404 => NotFoundFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      400 => ValidationFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      409 => ConflictFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      422 => InsufficientFundsFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
+      _ => ServerFailure(
+        message: e.message,
+        errors: e.errors,
+        traceId: e.traceId,
+      ),
     };
   }
 

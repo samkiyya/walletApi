@@ -27,8 +27,7 @@ class TransactionLocalDataSource {
   }
 
   /// Retrieves cached transactions for a wallet, or null if not cached.
-  Future<List<TransactionModel>?> getCachedTransactions(
-      String walletId) async {
+  Future<List<TransactionModel>?> getCachedTransactions(String walletId) async {
     final box = await _openBox();
     final raw = box.get(walletId);
     if (raw == null) return null;
