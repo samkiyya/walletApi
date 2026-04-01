@@ -3,8 +3,7 @@ library;
 class ApiConstants {
   const ApiConstants._();
   // static const String baseUrl = 'http://10.0.2.2:5001';
-    static const String baseUrl = 'http://localhost:5001';
-
+  static const String baseUrl = 'http://192.168.137.1:5001';
 
   // ── Wallet Endpoints ──────────────────────────────────────────────
   static const String wallets = '/api/v1/wallets';
