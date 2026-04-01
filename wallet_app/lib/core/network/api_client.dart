@@ -1,16 +1,9 @@
-/// {@template api_client}
-/// Production-grade Dio HTTP client factory.
-///
-/// Wires up:
-/// - [AppDioInterceptor] for structured logging, timing, idempotency
-/// - [CertificatePinningInterceptor] for TLS security
-///
-/// All [print] calls have been replaced with [AppLogger].
-/// {@endtemplate}
+
 library;
 
 import 'package:dio/dio.dart';
 import 'package:dio/io.dart';
+import 'package:certificate_pinning_httpclient/certificate_pinning_httpclient.dart';
 
 import 'package:wallet_app/core/constants/api_constants.dart';
 import 'package:wallet_app/core/network/app_interceptor.dart';
@@ -29,11 +22,13 @@ Dio createDioClient() {
     ),
   );
 
-  // ── Certificate Pinning ─────────────────────────────────────────
-  // Wire up the custom HttpClient adapter with certificate validation.
-  final pinning = CertificatePinningInterceptor();
-  (dio.httpClientAdapter as IOHttpClientAdapter).createHttpClient =
-      pinning.createPinnedHttpClient;
+   final adapter = dio.httpClientAdapter as IOHttpClientAdapter;
+
+   adapter.createHttpClient  =() {
+    return CertificatePinningHttpClient(
+      ["="],
+    );
+  };
 
   // ── Structured Interceptors ─────────────────────────────────────
   // Order matters: AppDioInterceptor logs before any retry logic would go.

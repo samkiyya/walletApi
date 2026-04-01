@@ -6,8 +6,8 @@ sealed class Failure extends Equatable {
   final String message;
   final List<String> errors;
   final String? traceId;
-
-  const Failure({required this.message, this.errors = const [], this.traceId});
+ final bool isSecurityException;
+  const Failure({required this.message, this.errors = const [], this.traceId,  this.isSecurityException = false,});
 
   @override
   List<Object?> get props => [message, errors, traceId];
@@ -62,6 +62,15 @@ final class ConflictFailure extends Failure {
 final class NetworkFailure extends Failure {
   const NetworkFailure({
     super.message = 'Network error. Please check your connection.',
+    super.errors,
+    super.traceId,
+  });
+}
+
+//certificate pinning failure
+final class SecurityFailure extends Failure {
+  const SecurityFailure({
+    super.message = 'Secure connection failed. Please try again later.',
     super.errors,
     super.traceId,
   });

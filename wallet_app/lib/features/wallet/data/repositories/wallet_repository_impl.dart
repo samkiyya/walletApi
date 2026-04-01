@@ -104,6 +104,21 @@ class WalletRepositoryImpl implements WalletRepository {
 
   // ── Exception Mapping ───────────────
   Failure _mapDioException(DioException e) {
+     final errorStr = e.error.toString().toLowerCase();
+//certificate pinning failure
+  final isPinningFailure =
+      errorStr.contains('certificate') ||
+      errorStr.contains('handshake') ||
+      errorStr.contains('tls') ||
+      errorStr.contains('x509');
+
+  // 🔐 PRIORITY CHECK (IMPORTANT)
+  if (isPinningFailure) {
+    return const SecurityFailure(
+      message: 'Secure connection failed (certificate validation error).',
+    );
+  }
+  //network error
     if (_isNetworkError(e)) {
       return const NetworkFailure();
     }
