@@ -62,8 +62,10 @@ class _WalletDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: colors.background,
       body: BlocConsumer<TransactionBloc, TransactionState>(
         listener: (context, txState) {
           if (txState is TransactionSuccess) {
@@ -72,7 +74,7 @@ class _WalletDetailView extends StatelessWidget {
                 content: Row(
                   children: [
                     const Icon(Icons.check_circle_rounded,
-                        color: AppTheme.successGreen, size: 20),
+                        color: Colors.white, size: 20),
                     const SizedBox(width: 10),
                     Expanded(
                         child: Text(txState.message,
@@ -93,7 +95,7 @@ class _WalletDetailView extends StatelessWidget {
                 content: Row(
                   children: [
                     const Icon(Icons.error_outline_rounded,
-                        color: AppTheme.errorRed, size: 20),
+                        color: Colors.white, size: 20),
                     const SizedBox(width: 10),
                     Expanded(
                         child: Text(txState.message,
@@ -195,7 +197,7 @@ class _WalletDetailView extends StatelessWidget {
                   Text(
                     ownerName,
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.8),
+                      color: Colors.white.withValues(alpha: 0.85),
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -218,7 +220,7 @@ class _WalletDetailView extends StatelessWidget {
                   Text(
                     'Available Balance',
                     style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.6),
+                      color: Colors.white.withValues(alpha: 0.7),
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
@@ -244,6 +246,8 @@ class _WalletDetailView extends StatelessWidget {
   // ── Action Buttons ────────────────────────────────────────────────
 
   Widget _buildActionButtons(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
       child: Row(
@@ -252,7 +256,7 @@ class _WalletDetailView extends StatelessWidget {
             icon: Icons.south_west_rounded,
             label: 'Deposit',
             color: AppTheme.successGreen,
-            bgColor: AppTheme.successGreenLight,
+            bgColor: colors.successGreenLight,
             onTap: () => _showDeposit(context),
           ),
           const SizedBox(width: 12),
@@ -260,7 +264,7 @@ class _WalletDetailView extends StatelessWidget {
             icon: Icons.north_east_rounded,
             label: 'Withdraw',
             color: AppTheme.errorRed,
-            bgColor: AppTheme.errorRedLight,
+            bgColor: colors.errorRedLight,
             onTap: () => _showWithdraw(context),
           ),
           const SizedBox(width: 12),
@@ -268,7 +272,7 @@ class _WalletDetailView extends StatelessWidget {
             icon: Icons.swap_horiz_rounded,
             label: 'Transfer',
             color: AppTheme.cbePurple,
-            bgColor: AppTheme.cbePurpleLight,
+            bgColor: colors.cbePurpleLight,
             onTap: () => _showTransfer(context),
           ),
         ],
@@ -282,17 +286,19 @@ class _WalletDetailView extends StatelessWidget {
   // ── Wallet ID Copy Section ────────────────────────────────────────
 
   Widget _buildWalletIdSection(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: AppTheme.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.divider),
+        border: Border.all(color: colors.divider),
       ),
       child: Row(
         children: [
-          Icon(Icons.tag_rounded, size: 18, color: AppTheme.textMuted),
+          Icon(Icons.tag_rounded, size: 18, color: colors.textSecondary),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -300,7 +306,7 @@ class _WalletDetailView extends StatelessWidget {
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                     fontFamily: 'monospace',
                     fontSize: 12,
-                    color: AppTheme.textSecondary,
+                    color: colors.textSecondary,
                   ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -318,7 +324,7 @@ class _WalletDetailView extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: AppTheme.cbePurpleLight,
+                color: colors.cbePurpleLight,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Row(
@@ -347,6 +353,8 @@ class _WalletDetailView extends StatelessWidget {
 
   Widget _buildTransactionList(
       BuildContext context, TransactionState txState) {
+    final colors = context.cbeColors;
+
     if (txState is TransactionLoading) {
       return const SliverFillRemaining(
         child: Center(
@@ -362,14 +370,14 @@ class _WalletDetailView extends StatelessWidget {
             margin: const EdgeInsets.all(16),
             padding: const EdgeInsets.all(32),
             decoration: BoxDecoration(
-              color: AppTheme.surface,
+              color: colors.surface,
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: AppTheme.divider),
+              border: Border.all(color: colors.divider),
             ),
             child: Column(
               children: [
                 Icon(Icons.receipt_long_outlined,
-                    size: 48, color: AppTheme.textMuted.withValues(alpha: 0.4)),
+                    size: 48, color: colors.textMuted),
                 const SizedBox(height: 12),
                 Text(
                   'No transactions yet',
@@ -407,7 +415,7 @@ class _WalletDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppTheme.surface,
+      backgroundColor: context.cbeColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -429,7 +437,7 @@ class _WalletDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppTheme.surface,
+      backgroundColor: context.cbeColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -451,7 +459,7 @@ class _WalletDetailView extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: AppTheme.surface,
+      backgroundColor: context.cbeColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -488,15 +496,17 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 18),
           decoration: BoxDecoration(
-            color: AppTheme.surface,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppTheme.divider),
+            border: Border.all(color: colors.divider),
           ),
           child: Column(
             children: [
@@ -512,7 +522,7 @@ class _ActionButton extends StatelessWidget {
               Text(
                 label,
                 style: TextStyle(
-                  color: AppTheme.textPrimary,
+                  color: colors.textPrimary,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),

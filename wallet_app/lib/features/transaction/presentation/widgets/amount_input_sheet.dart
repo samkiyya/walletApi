@@ -1,4 +1,13 @@
-
+/// {@template amount_input_sheet}
+/// Reusable bottom sheet for amount input operations.
+///
+/// Used by deposit and withdraw flows. Features:
+/// - Currency-formatted amount input with validation
+/// - Amount must be > 0 and ≤ 1,000,000 (matching backend validators)
+/// - Maximum 2 decimal places (matching backend validation)
+/// - Visual gradient header matching the operation type
+/// - Quick-select amount buttons
+/// {@endtemplate}
 library;
 
 import 'package:flutter/material.dart';
@@ -48,6 +57,8 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Padding(
       padding: EdgeInsets.only(
         left: 24,
@@ -67,7 +78,7 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppTheme.textMuted.withValues(alpha: 0.3),
+                  color: colors.textMuted.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -163,7 +174,7 @@ class _AmountInputSheetState extends State<AmountInputSheet> {
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 10),
                         side: BorderSide(
-                          color: AppTheme.divider,
+                          color: colors.divider,
                         ),
                       ),
                       child: Text('$amount',

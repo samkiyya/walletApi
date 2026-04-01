@@ -1,4 +1,12 @@
-
+/// {@template transaction_tile}
+/// Color-coded transaction list tile with CBE branding.
+///
+/// Visual indicators:
+/// - 🟢 Green: Deposit / TransferIn (credit)
+/// - 🔴 Red: Withdrawal / TransferOut (debit)
+///
+/// Shows amount in ETB, type, description, and formatted timestamp.
+/// {@endtemplate}
 library;
 
 import 'package:flutter/material.dart';
@@ -23,15 +31,17 @@ class TransactionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final currencyFormat = NumberFormat.currency(symbol: 'ETB ', decimalDigits: 2);
     final dateFormat = DateFormat('MMM d, h:mm a');
+    final colors = context.cbeColors;
 
-    final (icon, color, bgColor, prefix) = _getVisuals();
+    final (icon, color, prefix) = _getVisuals();
+    final bgColor = _getBgColor(colors);
 
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       decoration: BoxDecoration(
-        color: AppTheme.surface,
+        color: colors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppTheme.divider.withValues(alpha: 0.6)),
+        border: Border.all(color: colors.divider),
       ),
       child: ListTile(
         contentPadding:
@@ -54,7 +64,6 @@ class TransactionTile extends StatelessWidget {
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 15,
-                      color: AppTheme.textPrimary,
                     ),
                 overflow: TextOverflow.ellipsis,
               ),
@@ -78,7 +87,7 @@ class TransactionTile extends StatelessWidget {
                 child: Text(
                   transaction.description ?? '',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: AppTheme.textMuted,
+                        color: colors.textMuted,
                         fontSize: 12,
                       ),
                   overflow: TextOverflow.ellipsis,
@@ -87,7 +96,7 @@ class TransactionTile extends StatelessWidget {
               Text(
                 dateFormat.format(transaction.createdAtUtc.toLocal()),
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppTheme.textMuted.withValues(alpha: 0.7),
+                      color: colors.textMuted,
                       fontSize: 11,
                     ),
               ),
@@ -116,32 +125,37 @@ class TransactionTile extends StatelessWidget {
     };
   }
 
-  (IconData, Color, Color, String) _getVisuals() {
+  (IconData, Color, String) _getVisuals() {
     return switch (transaction.type) {
       TransactionType.deposit => (
           Icons.south_west_rounded,
           AppTheme.successGreen,
-          AppTheme.successGreenLight,
           '+'
         ),
       TransactionType.withdrawal => (
           Icons.north_east_rounded,
           AppTheme.errorRed,
-          AppTheme.errorRedLight,
           '-'
         ),
       TransactionType.transferOut => (
           Icons.arrow_upward_rounded,
           AppTheme.errorRed,
-          AppTheme.errorRedLight,
           '-'
         ),
       TransactionType.transferIn => (
           Icons.arrow_downward_rounded,
           AppTheme.successGreen,
-          AppTheme.successGreenLight,
           '+'
         ),
+    };
+  }
+
+  Color _getBgColor(CbeColors colors) {
+    return switch (transaction.type) {
+      TransactionType.deposit => colors.successGreenLight,
+      TransactionType.withdrawal => colors.errorRedLight,
+      TransactionType.transferOut => colors.errorRedLight,
+      TransactionType.transferIn => colors.successGreenLight,
     };
   }
 }

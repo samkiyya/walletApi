@@ -1,3 +1,13 @@
+/// {@template transactions_page}
+/// Full paginated transaction history page for a wallet.
+///
+/// Features:
+/// - Infinite scrolling with pagination
+/// - Pull-to-refresh
+/// - Shimmer loading skeleton
+/// - Color-coded transaction tiles
+/// - Empty state illustration
+/// {@endtemplate}
 library;
 
 import 'package:flutter/material.dart';
@@ -33,21 +43,22 @@ class _TransactionsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Scaffold(
-      backgroundColor: AppTheme.background,
+      backgroundColor: colors.background,
       appBar: AppBar(
         title: const Text('Transaction History'),
-        backgroundColor: AppTheme.surface,
       ),
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {
           if (state is TransactionLoading) {
-            return _buildShimmerLoading();
+            return _buildShimmerLoading(colors);
           }
 
           if (state is TransactionsLoaded) {
             if (state.transactions.isEmpty) {
-              return _buildEmptyState(context);
+              return _buildEmptyState(context, colors);
             }
 
             return RefreshIndicator(
@@ -96,19 +107,19 @@ class _TransactionsView extends StatelessWidget {
           }
 
           if (state is TransactionError) {
-            return _buildErrorState(context, state.message);
+            return _buildErrorState(context, state.message, colors);
           }
 
-          return _buildShimmerLoading();
+          return _buildShimmerLoading(colors);
         },
       ),
     );
   }
 
-  Widget _buildShimmerLoading() {
+  Widget _buildShimmerLoading(CbeColors colors) {
     return Shimmer.fromColors(
-      baseColor: AppTheme.surfaceLight,
-      highlightColor: AppTheme.surface,
+      baseColor: colors.surfaceLight,
+      highlightColor: colors.surface,
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 12),
         itemCount: 8,
@@ -116,7 +127,7 @@ class _TransactionsView extends StatelessWidget {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           height: 72,
           decoration: BoxDecoration(
-            color: AppTheme.surface,
+            color: colors.surface,
             borderRadius: BorderRadius.circular(16),
           ),
         ),
@@ -124,7 +135,7 @@ class _TransactionsView extends StatelessWidget {
     );
   }
 
-  Widget _buildEmptyState(BuildContext context) {
+  Widget _buildEmptyState(BuildContext context, CbeColors colors) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -134,7 +145,7 @@ class _TransactionsView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.cbePurpleLight,
+                color: colors.cbePurpleLight,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -160,7 +171,8 @@ class _TransactionsView extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorState(BuildContext context, String message) {
+  Widget _buildErrorState(
+      BuildContext context, String message, CbeColors colors) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(40),
@@ -170,7 +182,7 @@ class _TransactionsView extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: AppTheme.errorRedLight,
+                color: colors.errorRedLight,
                 shape: BoxShape.circle,
               ),
               child: const Icon(

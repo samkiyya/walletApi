@@ -1,3 +1,10 @@
+/// {@template create_wallet_dialog}
+/// Bottom sheet dialog for creating a new wallet.
+///
+/// Provides a form with an optional owner name field and
+/// validation. Dispatches [CreateWalletRequested] to the BLoC.
+/// CBE branded with purple accent.
+/// {@endtemplate}
 library;
 
 import 'package:flutter/material.dart';
@@ -35,6 +42,8 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = context.cbeColors;
+
     return Padding(
       padding: EdgeInsets.only(
         left: 24,
@@ -54,7 +63,7 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: AppTheme.textMuted.withValues(alpha: 0.3),
+                  color: colors.textMuted.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -94,10 +103,11 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
             TextFormField(
               controller: _nameController,
               textCapitalization: TextCapitalization.words,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Owner Name',
                 hintText: 'e.g. Abebe Bikila',
-                prefixIcon: Icon(Icons.person_outline_rounded),
+                prefixIcon: Icon(Icons.person_outline_rounded,
+                    color: colors.textMuted),
               ),
               validator: (value) {
                 if (value != null &&

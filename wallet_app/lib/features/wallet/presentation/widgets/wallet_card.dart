@@ -1,3 +1,10 @@
+/// {@template wallet_card}
+/// CBE-branded wallet card widget.
+///
+/// Displays wallet owner name, truncated ID, and formatted balance
+/// with CBE purple gradient header and clean white card body.
+/// Uses 60/30/10 color rule: white card body, dark text, purple accent.
+/// {@endtemplate}
 library;
 
 import 'package:flutter/material.dart';
@@ -22,18 +29,19 @@ class WalletCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currencyFormat = NumberFormat.currency(symbol: 'ETB ', decimalDigits: 2);
+    final colors = context.cbeColors;
 
     return GestureDetector(
       onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: AppTheme.surface,
+          color: colors.surface,
           borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppTheme.divider),
+          border: Border.all(color: colors.divider),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.04),
+              color: colors.cardShadow,
               blurRadius: 12,
               offset: const Offset(0, 4),
             ),
@@ -80,7 +88,7 @@ class WalletCard extends StatelessWidget {
                         Text(
                           'ID: ${wallet.id.substring(0, 8)}...',
                           style: TextStyle(
-                            color: Colors.white.withValues(alpha: 0.7),
+                            color: Colors.white.withValues(alpha: 0.75),
                             fontSize: 11,
                           ),
                         ),
@@ -89,7 +97,7 @@ class WalletCard extends StatelessWidget {
                   ),
                   Icon(
                     Icons.chevron_right_rounded,
-                    color: Colors.white.withValues(alpha: 0.6),
+                    color: Colors.white.withValues(alpha: 0.7),
                   ),
                 ],
               ),
@@ -104,7 +112,7 @@ class WalletCard extends StatelessWidget {
                   Text(
                     'Available Balance',
                     style: TextStyle(
-                      color: AppTheme.textMuted,
+                      color: colors.textMuted,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       letterSpacing: 0.8,
@@ -113,10 +121,10 @@ class WalletCard extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     currencyFormat.format(wallet.balance),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.textPrimary,
+                      color: colors.textPrimary,
                       letterSpacing: -0.5,
                     ),
                   ),
@@ -126,13 +134,13 @@ class WalletCard extends StatelessWidget {
                       Icon(
                         Icons.access_time_rounded,
                         size: 13,
-                        color: AppTheme.textMuted.withValues(alpha: 0.6),
+                        color: colors.textMuted,
                       ),
                       const SizedBox(width: 4),
                       Text(
                         'Created ${DateFormat.yMMMd().format(wallet.createdAtUtc)}',
                         style: TextStyle(
-                          color: AppTheme.textMuted.withValues(alpha: 0.6),
+                          color: colors.textMuted,
                           fontSize: 11,
                         ),
                       ),
