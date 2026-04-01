@@ -2,13 +2,14 @@ library;
 
 class ApiConstants {
   const ApiConstants._();
-  static const String baseUrl = 'https://10.0.2.2:5000';
+  // static const String baseUrl = 'http://10.0.2.2:5001';
+    static const String baseUrl = 'http://localhost:5001';
+
 
   // ── Wallet Endpoints ──────────────────────────────────────────────
   static const String wallets = '/api/v1/wallets';
   static String walletById(String id) => '/api/v1/wallets/$id';
-  static String deposit(String walletId) =>
-      '/api/v1/wallets/$walletId/deposit';
+  static String deposit(String walletId) => '/api/v1/wallets/$walletId/deposit';
   static String withdraw(String walletId) =>
       '/api/v1/wallets/$walletId/withdraw';
   static const String transfers = '/api/v1/wallets/transfers';
