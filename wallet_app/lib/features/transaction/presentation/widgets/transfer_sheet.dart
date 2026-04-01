@@ -153,7 +153,7 @@ class _TransferSheetState extends State<TransferSheet> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      gradient: AppTheme.transferGradient,
+                      gradient: kTransferGradient,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(Icons.swap_horiz_rounded,

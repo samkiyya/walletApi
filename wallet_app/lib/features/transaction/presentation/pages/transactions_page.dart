@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/core/presentation/widgets/cbe_app_bar.dart';
 import 'package:wallet_app/di/injection_container.dart';
 import 'package:wallet_app/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:wallet_app/features/transaction/presentation/bloc/transaction_event.dart';
@@ -48,8 +49,8 @@ class _TransactionsView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: colors.background,
-      appBar: AppBar(
-        title: const Text('Transaction History'),
+      appBar: const CbeAppBar(
+        title: 'Transaction History',
       ),
       body: BlocBuilder<TransactionBloc, TransactionState>(
         builder: (context, state) {

@@ -21,6 +21,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/core/presentation/widgets/cbe_hero_app_bar.dart';
 import 'package:wallet_app/di/injection_container.dart';
 import 'package:wallet_app/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:wallet_app/features/transaction/presentation/bloc/transaction_event.dart';
@@ -172,7 +173,6 @@ class _WalletDetailView extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context, WalletState state) {
     final colors = context.cbeColors;
-    final scheme = Theme.of(context).colorScheme;
     final currencyFormat =
         NumberFormat.currency(symbol: 'ETB ', decimalDigits: 2);
 
@@ -184,67 +184,46 @@ class _WalletDetailView extends StatelessWidget {
       ownerName = state.wallet.ownerName ?? 'Anonymous Wallet';
     }
 
-    return SliverAppBar(
+    return CbeHeroAppBar(
+      title: 'Wallet Details',
       expandedHeight: 220,
-      pinned: true,
-      backgroundColor: scheme.primary,
-      foregroundColor: scheme.onPrimary,
-      iconTheme: IconThemeData(color: scheme.onPrimary),
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: const BoxDecoration(gradient: AppTheme.heroGradient),
-          child: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 60, 20, 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(
-                    ownerName,
-                    style: TextStyle(
-                      color: colors.onGradient.withValues(alpha: 0.85),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    balance,
-                    style: TextStyle(
-                      color: colors.onGradient,
-                      fontSize: 36,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: -1,
-                    ),
-                  )
-                      .animate(
-                          target: state is WalletDetailLoaded ? 1 : 0)
-                      .fadeIn(duration: 400.ms)
-                      .slideY(begin: 0.2, end: 0, duration: 400.ms),
-                  const SizedBox(height: 4),
-                  Text(
-                    'Available Balance',
-                    style: TextStyle(
-                      color: colors.onGradientMuted,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5,
-                    ),
-                  ),
-                ],
-              ),
+      heroContent: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            ownerName,
+            style: TextStyle(
+              color: colors.onGradient.withValues(alpha: 0.85),
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
             ),
           ),
-        ),
-      ),
-      title: Text(
-        'Wallet Details',
-        style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w700,
-          color: scheme.onPrimary,
-        ),
+          const SizedBox(height: 8),
+          Text(
+            balance,
+            style: TextStyle(
+              color: colors.onGradient,
+              fontSize: 36,
+              fontWeight: FontWeight.w800,
+              letterSpacing: -1,
+            ),
+          )
+              .animate(
+                  target: state is WalletDetailLoaded ? 1 : 0)
+              .fadeIn(duration: 400.ms)
+              .slideY(begin: 0.2, end: 0, duration: 400.ms),
+          const SizedBox(height: 4),
+          Text(
+            'Available Balance',
+            style: TextStyle(
+              color: colors.onGradientMuted,
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              letterSpacing: 0.5,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -425,7 +404,7 @@ class _WalletDetailView extends StatelessWidget {
         title: 'Deposit Funds',
         subtitle: 'Add money to your wallet',
         icon: Icons.south_west_rounded,
-        gradient: AppTheme.depositGradient,
+        gradient: kDepositGradient,
         buttonLabel: 'Confirm Deposit',
         onSubmit: (amount) {
           txBloc.add(SubmitDeposit(walletId: walletId, amount: amount));
@@ -443,7 +422,7 @@ class _WalletDetailView extends StatelessWidget {
         title: 'Withdraw Funds',
         subtitle: 'Take money from your wallet',
         icon: Icons.north_east_rounded,
-        gradient: AppTheme.withdrawGradient,
+        gradient: kWithdrawGradient,
         buttonLabel: 'Confirm Withdrawal',
         onSubmit: (amount) {
           txBloc.add(SubmitWithdraw(walletId: walletId, amount: amount));

@@ -76,7 +76,7 @@ class _CreateWalletDialogState extends State<CreateWalletDialog> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    gradient: AppTheme.cardGradient,
+                    gradient: kCardGradient,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(

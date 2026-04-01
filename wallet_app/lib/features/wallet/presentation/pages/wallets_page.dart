@@ -17,10 +17,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:wallet_app/app/bloc/theme_bloc.dart';
-import 'package:wallet_app/app/bloc/theme_event.dart';
-import 'package:wallet_app/app/bloc/theme_state.dart';
 import 'package:wallet_app/app/theme.dart';
+import 'package:wallet_app/core/presentation/widgets/cbe_hero_app_bar.dart';
 import 'package:wallet_app/di/injection_container.dart';
 import 'package:wallet_app/features/wallet/domain/entities/wallet.dart';
 import 'package:wallet_app/features/wallet/presentation/bloc/wallet_bloc.dart';
@@ -83,139 +81,49 @@ class _WalletsViewState extends State<_WalletsView> {
         ),
         slivers: [
           // ── CBE Branded App Bar ──────────────────────────────
-          // Uses FlexibleSpaceBar title for smooth collapse transition
-          // so "My Wallets" and the hero content never overlap.
-          SliverAppBar(
+          CbeHeroAppBar(
+            title: 'My Wallets',
             expandedHeight: 140,
-            floating: false,
-            pinned: true,
-            backgroundColor: colors.surface,
-            surfaceTintColor: colors.surface,
-            flexibleSpace: LayoutBuilder(
-              builder: (context, constraints) {
-                // Determine collapse ratio to cross-fade hero vs title
-                final expandedHeight = 140 +
-                    MediaQuery.of(context).padding.top;
-                final currentHeight = constraints.maxHeight;
-                final collapseRatio = ((currentHeight -
-                            kToolbarHeight -
-                            MediaQuery.of(context).padding.top) /
-                        (expandedHeight -
-                            kToolbarHeight -
-                            MediaQuery.of(context).padding.top))
-                    .clamp(0.0, 1.0);
-
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    // ── Expanded hero content (fades out on collapse)
-                    Opacity(
-                      opacity: collapseRatio,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          gradient: AppTheme.heroGradient,
-                        ),
-                        child: SafeArea(
-                          child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                            child: Column(
-                              crossAxisAlignment:
-                                  CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: const EdgeInsets.all(8),
-                                      decoration: BoxDecoration(
-                                        color: colors.onGradient
-                                            .withValues(alpha: 0.15),
-                                        borderRadius:
-                                            BorderRadius.circular(10),
-                                      ),
-                                      child: Icon(
-                                        Icons.account_balance_rounded,
-                                        color: colors.onGradient,
-                                        size: 22,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'CBE Wallet',
-                                            style: TextStyle(
-                                              color: colors.onGradient,
-                                              fontSize: 22,
-                                              fontWeight: FontWeight.w800,
-                                              letterSpacing: -0.5,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Commercial Bank of Ethiopia',
-                                            style: TextStyle(
-                                              color: colors.onGradientMuted,
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    BlocBuilder<ThemeBloc, ThemeState>(
-                                      builder: (context, themeState) {
-                                        final isDark = themeState.themeMode == ThemeMode.dark ||
-                                            (themeState.themeMode == ThemeMode.system &&
-                                                MediaQuery.of(context).platformBrightness == Brightness.dark);
-                                        return IconButton(
-                                          icon: Icon(
-                                            isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
-                                            color: colors.onGradient,
-                                          ),
-                                          onPressed: () => context.read<ThemeBloc>().add(const ThemeToggled()),
-                                          tooltip: 'Toggle Theme',
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
+            heroContent: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: colors.onGradient.withValues(alpha: 0.15),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(
+                    Icons.account_balance_rounded,
+                    color: colors.onGradient,
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'CBE Wallet',
+                        style: TextStyle(
+                          color: colors.onGradient,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.5,
                         ),
                       ),
-                    ),
-
-                    // ── Collapsed title (fades in on collapse)
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      height: kToolbarHeight +
-                          MediaQuery.of(context).padding.top,
-                      child: Opacity(
-                        opacity: (1.0 - collapseRatio).clamp(0.0, 1.0),
-                        child: Container(
-                          color: colors.surface,
-                          alignment: Alignment.bottomCenter,
-                          padding: const EdgeInsets.only(bottom: 14),
-                          child: Text(
-                            'My Wallets',
-                            style: TextStyle(
-                              color: colors.textPrimary,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
+                      Text(
+                        'Commercial Bank of Ethiopia',
+                        style: TextStyle(
+                          color: colors.onGradientMuted,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
 
@@ -438,7 +346,6 @@ class _WalletsViewState extends State<_WalletsView> {
     );
   }
 
-  /// Shown when search query matches no wallets (but wallets exist).
   Widget _buildNoResultsState(BuildContext context, CbeColors colors) {
     return Center(
       child: Padding(

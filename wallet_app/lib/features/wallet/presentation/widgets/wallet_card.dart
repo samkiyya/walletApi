@@ -53,7 +53,7 @@ class WalletCard extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               decoration: const BoxDecoration(
-                gradient: AppTheme.cardGradient,
+                gradient: kCardGradient,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               ),
               child: Row(

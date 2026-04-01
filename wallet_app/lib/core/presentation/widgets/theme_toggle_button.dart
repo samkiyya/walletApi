@@ -1,0 +1,44 @@
+/// {@template theme_toggle_button}
+/// Reusable icon button that toggles the global application theme.
+///
+/// Automatically reads the current theme from [ThemeBloc] and
+/// switches between light and dark modes. Designed to be placed
+/// in AppBars consistently across the app.
+/// {@endtemplate}
+library;
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:wallet_app/app/bloc/theme_bloc.dart';
+import 'package:wallet_app/app/bloc/theme_event.dart';
+import 'package:wallet_app/app/bloc/theme_state.dart';
+
+class ThemeToggleButton extends StatelessWidget {
+  final Color? color;
+
+  const ThemeToggleButton({
+    super.key,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ThemeBloc, ThemeState>(
+      builder: (context, themeState) {
+        final isDark = themeState.themeMode == ThemeMode.dark ||
+            (themeState.themeMode == ThemeMode.system &&
+                MediaQuery.of(context).platformBrightness == Brightness.dark);
+        
+        return IconButton(
+          icon: Icon(
+            isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+            color: color ?? Theme.of(context).appBarTheme.iconTheme?.color,
+          ),
+          onPressed: () => context.read<ThemeBloc>().add(const ThemeToggled()),
+          tooltip: 'Toggle Theme',
+        );
+      },
+    );
+  }
+}
