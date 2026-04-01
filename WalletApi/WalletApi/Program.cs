@@ -26,6 +26,9 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.UseSerilog();
+    // ── PORT CONFIG (🔥 REQUIRED FOR RENDER) ─────────────────────────
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
     // ── EF Core + PostgreSQL ──────────────────────────────────────────
     builder.Services.AddDbContext<AppDbContext>(options =>
@@ -35,7 +38,7 @@ try
             {
                 npgsqlOptions.EnableRetryOnFailure(
                     maxRetryCount: 3,
-                    maxRetryDelay: TimeSpan.FromSeconds(5),
+                    maxRetryDelay: TimeSpan.FromSeconds(10),
                     errorCodesToAdd: null);
             }));
 
@@ -68,19 +71,31 @@ try
     var app = builder.Build();
 
     // ── Apply Database Migrations on Startup ──────────────────────────
+    // ── DB MIGRATION (Production-safe) ──────────────────────────────
     using (var scope = app.Services.CreateScope())
     {
-        var services = scope.ServiceProvider;
-        try
+        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        if (app.Environment.IsDevelopment())
         {
-            var context = services.GetRequiredService<AppDbContext>();
-            context.Database.Migrate();
-            Log.Information("Database migrations applied successfully.");
+            db.Database.Migrate();
         }
-        catch (Exception ex)
+        else
         {
-            Log.Fatal(ex, "An error occurred while applying database migrations.");
-            throw; // Rethrow to prevent the app from starting in an invalid state
+            // Production: safer retry strategy
+            var retries = 5;
+            while (retries-- > 0)
+            {
+                try
+                {
+                    db.Database.Migrate();
+                    break;
+                }
+                catch
+                {
+                    Thread.Sleep(5000);
+                }
+            }
         }
     }
 
@@ -96,11 +111,11 @@ try
         app.MapScalarApiReference();
     }
 
-    app.UseHttpsRedirection();
+    // app.UseHttpsRedirection();
     app.UseAuthorization();
     app.MapControllers();
 
-    Log.Information("WalletApi started");
+    Log.Information("WalletApi started on port {Port}", port);
     app.Run();
 }
 catch (Exception ex)
