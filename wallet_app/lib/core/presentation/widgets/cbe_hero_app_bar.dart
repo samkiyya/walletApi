@@ -1,15 +1,4 @@
-/// {@template cbe_hero_app_bar}
-/// A consistent, reusable [SliverAppBar] with a CBE-branded gradient hero section.
-///
-/// Features:
-/// - Smooth collapse animation into a standard app bar
-/// - Native [actions] for perfect vertical alignment
-/// - Flawless safe-area handling preventing layout bleeding
-/// - Interpolated cross-fades ensuring crisp typography
-///
-/// Use this for top-level pages that need a strong branding presence
-/// (like the Wallets list or Wallet Details). Use [CbeAppBar] for simpler inner pages.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';
@@ -22,7 +11,6 @@ class CbeHeroAppBar extends StatelessWidget {
   final String title;
 
   /// The widget displayed in the expanded hero section.
-  /// Must be bounded (e.g., Column with mainAxisSize: min).
   final Widget heroContent;
 
   /// The total height of the expanded hero section excluding the status bar.

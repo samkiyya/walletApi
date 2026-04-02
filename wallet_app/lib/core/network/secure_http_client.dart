@@ -2,7 +2,7 @@ import 'dart:io';
 import 'tls_pinning.dart';
 
 HttpClient createSecureHttpClient() {
-  final context = SecurityContext(withTrustedRoots: true);
+  final context = SecurityContext(withTrustedRoots: false);
 
   return HttpClient(context: context)
     ..badCertificateCallback =

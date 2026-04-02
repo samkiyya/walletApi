@@ -1,21 +1,11 @@
-/// {@template responsive_utils}
-/// A senior-level, unified responsive framework for the application.
-///
-/// Embraces the "Flutter Way" by avoiding rigid, hardcoded device breakpoints
-/// (like `isTablet`). Instead, it leverages intrinsic constraints, fluid math,
-/// and Flutter 3.x targeted `MediaQuery` getters (e.g., `sizeOf` instead of
-/// `of`) to prevent unnecessary widget tree rebuilds.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';
 
 /// Extension on [BuildContext] for elegant, optimized responsive design.
 extension ResponsiveContext on BuildContext {
-  // ── 1. Optimized Window Metrics ──────────────────────────────────
-  // Using MediaQuery.xOf(context) instead of MediaQuery.of(context).x
-  // is a core Flutter 3 optimization. It ensures widgets only rebuild
-  // when the SPECIFIC metric changes, not any metric.
+  // ── 1. Optimized Window Metrics ────
 
   /// The physical width of the screen.
   double get width => MediaQuery.sizeOf(this).width;
@@ -38,13 +28,7 @@ extension ResponsiveContext on BuildContext {
   /// Text scaling factor configured by the user in OS accessibility settings.
   double get textScale => MediaQuery.textScalerOf(this).scale(14) / 14;
 
-  // ── 2. Fluid & Adaptive Math ──────────────────────────────────────
-
-  /// Calculates a fluid dimension that scales proportionally with the screen width
-  /// but locks securely between a [min] and [max] boundary.
-  ///
-  /// The [baseWidth] represents the design draft's width (usually 375 for mobile).
-  /// This is vastly superior to rigid breakpoints as it organically morphs.
+  // ── 2. Fluid & Adaptive Math ────────
   double fluid(
     double size, {
     double? min,
@@ -57,7 +41,6 @@ extension ResponsiveContext on BuildContext {
   }
 
   /// Calculates a height scaling proportionally with the screen height.
-  /// Useful for dramatic vertical spacing (e.g., empty states).
   double fluidHeight(
     double size, {
     double? min,
@@ -70,14 +53,7 @@ extension ResponsiveContext on BuildContext {
   }
 }
 
-// ── 3. Constraint Wrappers ──────────────────────────────────────────
-
-/// A core widget that restricts its child to a maximum width and perfectly
-/// centers it.
-///
-/// This is the "Flutter Way" to handle large screens (tablets/desktop)
-/// without relying on explicit breakpoints. The UI naturally flows until
-/// it hits a reasonable maximum readable width.
+// ── 3. Constraint Wrappers ────────
 class AppResponsiveConstraint extends StatelessWidget {
   final Widget child;
   final double maxWidth;

@@ -1,10 +1,4 @@
-/// {@template create_wallet_dialog}
-/// Bottom sheet dialog for creating a new wallet.
-///
-/// Provides a form with an optional owner name field and
-/// validation. Dispatches [CreateWalletRequested] to the BLoC.
-/// CBE branded with purple accent.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

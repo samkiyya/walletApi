@@ -1,15 +1,4 @@
-/// {@template wallets_page}
-/// Main page displaying all wallets in a scrollable list.
-///
-/// Features:
-/// - Pull-to-refresh for manual data reload
-/// - Shimmer skeleton loading state
-/// - FAB to create a new wallet via bottom sheet
-/// - Staggered card entrance animations
-/// - Error state with retry button
-/// - CBE branded header and color scheme
-/// - Client-side search by wallet ID or owner name
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

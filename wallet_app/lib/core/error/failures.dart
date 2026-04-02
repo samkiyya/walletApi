@@ -6,8 +6,14 @@ sealed class Failure extends Equatable {
   final String message;
   final List<String> errors;
   final String? traceId;
- final bool isSecurityException;
-  const Failure({required this.message, this.errors = const [], this.traceId,  this.isSecurityException = false,});
+  final bool isSecurityException;
+
+  const Failure({
+    required this.message,
+    this.errors = const [],
+    this.traceId,
+    this.isSecurityException = false,
+  });
 
   @override
   List<Object?> get props => [message, errors, traceId];

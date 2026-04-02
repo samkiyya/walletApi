@@ -1,13 +1,4 @@
-/// {@template transactions_page}
-/// Full paginated transaction history page for a wallet.
-///
-/// Features:
-/// - Infinite scrolling with pagination
-/// - Pull-to-refresh
-/// - Shimmer loading skeleton
-/// - Color-coded transaction tiles
-/// - Empty state illustration
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

@@ -1,12 +1,4 @@
-/// {@template transfer_sheet}
-/// Bottom sheet for initiating a wallet-to-wallet transfer.
-///
-/// Requires the target wallet ID and amount input. Features:
-/// - Searchable wallet picker: search by owner name or wallet ID
-/// - Amount input with validation matching backend rules
-/// - Self-transfer prevention
-/// - CBE branded
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

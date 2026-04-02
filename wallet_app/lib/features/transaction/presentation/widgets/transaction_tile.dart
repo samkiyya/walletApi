@@ -1,12 +1,4 @@
-/// {@template transaction_tile}
-/// Color-coded transaction list tile with CBE branding.
-///
-/// Visual indicators:
-/// - 🟢 Green: Deposit / TransferIn (credit)
-/// - 🔴 Red: Withdrawal / TransferOut (debit)
-///
-/// Shows amount in ETB, type, description, and formatted timestamp.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

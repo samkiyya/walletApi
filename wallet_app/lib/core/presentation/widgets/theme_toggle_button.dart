@@ -1,10 +1,4 @@
-/// {@template theme_toggle_button}
-/// Reusable icon button that toggles the global application theme.
-///
-/// Automatically reads the current theme from [ThemeBloc] and
-/// switches between light and dark modes. Designed to be placed
-/// in AppBars consistently across the app.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

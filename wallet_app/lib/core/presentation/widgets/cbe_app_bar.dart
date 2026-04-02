@@ -1,9 +1,4 @@
-/// {@template cbe_app_bar}
-/// A consistent, standardized [AppBar] for the CBE design system.
-///
-/// Use this for inner pages that don't need a large hero section.
-/// Automatically includes the global theme toggle button.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

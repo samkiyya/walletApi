@@ -1,15 +1,4 @@
-/// {@template wallet_bloc}
-/// BLoC for all wallet-related operations.
-///
-/// Events → Handlers:
-/// - [LoadWallets]         → fetches paginated wallet list
-/// - [LoadWalletDetail]    → fetches a single wallet by ID
-/// - [CreateWalletRequested] → creates a new wallet
-/// - [RefreshWallets]      → silent refresh (no loading spinner)
-///
-/// All operations are logged via [AppLogger] with the 'WalletBloc' tag
-/// so they are trivially filterable in the console.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter_bloc/flutter_bloc.dart';

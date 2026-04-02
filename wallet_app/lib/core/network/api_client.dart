@@ -23,9 +23,6 @@ Dio createDioClient() {
   final adapter = dio.httpClientAdapter as IOHttpClientAdapter;
 
   adapter.createHttpClient = () {
-    // return HttpSecurityPinningClient(
-    //   ["T4eoRdbfIYF3G9IOGamqR3Vgye2bNLHQTSCOY8u3y5w="],
-    // );
    return  createSecureHttpClient();
   };
 

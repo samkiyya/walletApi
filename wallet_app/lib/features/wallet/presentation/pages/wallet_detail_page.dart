@@ -1,16 +1,4 @@
-/// {@template wallet_detail_page}
-/// Single wallet detail page with balance display and action buttons.
-///
-/// Shows:
-/// - Hero balance card with CBE gradient
-/// - Quick action buttons: Deposit, Withdraw, Transfer
-/// - Inline recent transactions (last 5)
-/// - Link to full transaction history
-///
-/// Manages two BLoC instances:
-/// - [WalletBloc] for wallet data
-/// - [TransactionBloc] for financial operations + recent history
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';

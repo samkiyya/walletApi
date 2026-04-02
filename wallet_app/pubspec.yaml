@@ -38,6 +38,8 @@ dependencies:
   flutter_animate: ^4.5.2
   cupertino_icons: ^1.0.8
   crypto: ^3.0.7
+  asn1lib: ^1.6.5
+  basic_utils: ^5.8.2
 
 dev_dependencies:
   flutter_test:

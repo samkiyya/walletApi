@@ -1,10 +1,4 @@
-/// {@template wallet_card}
-/// CBE-branded wallet card widget.
-///
-/// Displays wallet owner name, truncated ID, and formatted balance
-/// with CBE purple gradient header and clean white card body.
-/// Uses 60/30/10 color rule: white card body, dark text, purple accent.
-/// {@endtemplate}
+
 library;
 
 import 'package:flutter/material.dart';
