@@ -266,7 +266,12 @@ class _WalletsViewState extends State<_WalletsView> {
                     return WalletCard(
                       wallet: wallet,
                       index: index,
-                      onTap: () => context.push('/wallets/${wallet.id}'),
+                      onTap: () async {
+                        await context.push('/wallets/${wallet.id}');
+                        if (context.mounted) {
+                          context.read<WalletBloc>().add(const LoadWallets());
+                        }
+                      },
                     );
                   }, childCount: filtered.length),
                 );
