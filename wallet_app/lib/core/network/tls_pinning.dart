@@ -14,7 +14,7 @@ class TlsPinning {
   static const List<String> trustedPins = [
     "drJ7gKWAJ9w88dpo2sFwEO2TmX0LYD4vrb6FASSTtac=",
   ];
-  String extractSpkiHash(List<int> derBytes) {
+String extractSpkiHash(List<int> derBytes) {
     // Convert List<int> to Uint8List to satisfy ASN1Parser requirements
     final uint8Bytes = Uint8List.fromList(derBytes);
 

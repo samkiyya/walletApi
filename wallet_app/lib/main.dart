@@ -37,6 +37,8 @@ Future<void> main() async {
   await initializeDependencies();
   AppLogger.info('All dependencies registered.', tag: 'Bootstrap');
 
+
+
   AppLogger.info('=== Launching WalletApp ===', tag: 'Bootstrap');
 
   // 6. Launch the app
